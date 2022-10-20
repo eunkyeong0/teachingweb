@@ -36,7 +36,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage : storage});
- 
+  const port = process.env.PORT || 8080 ;
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(http, {
   debug:true,
@@ -46,7 +46,8 @@ app.use('/', peerServer);
 
 MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   if (에러) return console.log(에러)
-  http.listen(8080, function() {
+
+  http.listen(port, function() {
     console.log('listening on 8080')
   })
 
