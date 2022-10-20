@@ -1,0 +1,80 @@
+
+.contents{
+    width: 90%; 
+    height:85vh;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+.servecon{
+    border: 2px solid rgb(107, 186, 236);
+    float: left; 
+    width: 25%; 
+    height: 100%;
+}
+
+.maincon{
+    border: 2px solid rgb(107, 186, 236);
+    float: left; 
+    width: 70%; 
+    height: 100%;
+}
+.leftcolumn {   
+  float: left;
+  width: 90%;
+}
+
+.leftcolumn2 {   
+    float: left;
+    width: 45%;
+  }
+.rightcolumn{
+    float: right;
+    padding-right: 6%;
+    width: 45%; 
+}
+  
+  /* Fake image */
+  .mathimg {
+    background-color: #aaa;
+    width: 100%;
+    margin-top:2%;
+    
+  }
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  #countdown {
+    font-family: 'GmarketSansMedium';  
+    display: inline;
+    background-color:rgb(107, 154, 183);
+    color: white;
+    text-align:center;
+    font-size: 2.5rem;
+    margin-left:30%;
+  }
+
+   .notification-container {
+    background: rgba(0,0,0,.3);
+    border-radius: 10px 10px 0 0 ;
+    padding: 15px 20px;
+    position: absolute;
+    top: -50px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .notification-container.show {
+    transform: translateY(50px);
+  } 

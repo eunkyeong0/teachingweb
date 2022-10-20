@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="\public\reset.css">
+    <link rel="stylesheet" href="\public\indexstyle.css">
+    <link rel="stylesheet" href="\public\put.css">
+    
+    <title>티칭 웹</title>
+    <style>
+
+    </style>
+
+<header class="floating" style="width : 100%; height: 6%; background-color: rgb(39, 39, 226);">
+  <h1 style=" color: white; font-size: 1.9rem;">&nbsp Teaching Web</h1>        
+</header>   
+</head>
+
+<body>
+     
+    <section class="scene">
+        <div class="one">        
+                <div class="maintext" style="position: absolute; top: 28%; left: 50%; transform: translate(-50%,-50%); text-align: center;">
+                티칭웹에 오신것을 환영합니다.<br><br>
+                </div>
+
+                <div class="servetext" style="position: absolute;top: 40%; left: 50%; transform: translate(-50%,-50%); text-align: center;">
+                <br><br>티칭웹으로 수학문제를 물어보세요.<br><br>
+                </div>
+                
+            <div class="btn-group2" >
+                <button  style="width: 30%; position: absolute; transform: translate(-50%,-50%);" 
+                onclick="document.getElementById('jo01').style.display='block'" >회 원  가 입</button>
+                <button  style="width: 30%; position: absolute; transform: translate(-50%,-50%); margin-left: 40%; cursor:pointer;" 
+                onclick="document.getElementById('id01').style.display='block'" >  로 그 인</button>
+            </div>  
+        </div>
+     
+        <div id="jo01" class="modal">
+  
+          <form class="modal-content animate" action="/newuser" method="post">
+            <div class="imgcontainer">
+              <div class="maintext"><br>회원 가입</div>
+              <span onclick="document.getElementById('jo01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <img style=" margin-top: -3%; height: 25%; width: 20%;"  class="avatar">
+            </div>
+        
+            <div class="container">
+              <label for="id"><b>User_id</b></label>
+              <input type="text" placeholder="Enter Userid" name="uid" required>
+
+              <label for="nick"><b>Nickname</label>
+              <br>
+              <input style="width:85%" type="text" placeholder="Enter Nickname" name="unick" required >
+              
+              <form action="/nickcheak" method="post">
+              <button class="btn-button" style="width: 10%" type="submit">중복 확인</button>
+              <div id="cheak" style="color:red">
+                <script>
+                document.getElementById('cheak').innerHTML="중복확인을 실시해주세요.";
+                </script>
+                
+              </div>                
+              </form>
+
+              <br>
+              <label for="psw"><b>Password</b></label>
+              <input type="text" placeholder="Enter Password" name="psw" required>
+ 
+
+              <script> function joinbtn(){ alert('회원가입이 완료되었습니다.'); } </script>
+              <button type="submit"onclick="javascript:joinbtn()" >Join</button>
+            
+            </div>
+        
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" onclick="document.getElementById('jo01').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="id01" class="modal">
+  
+            <form class="modal-content animate" action="/login" method="post">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img style=" margin-top: -3%; height: 25%; width: 20%;"
+                src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="Avatar" class="avatar">
+              </div>
+          
+              <div class="container">
+                <label for="id"><b>User_id</b></label>
+                <input type="text" placeholder="Enter Userid" name="uid" required>
+          
+                <label for="psw"><b>Password</b></label>
+                <input type="text" placeholder="Enter Password" name="psw" required>
+                
+                  
+                <button type="submit">Login </button>
+
+                <label>
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+              </div>
+          
+              <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a href="#">password?</a></span>
+              </div>
+            </form>
+          </div>
+
+
+          <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+            var modal2=document.getElementById('jo01');
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    modal2.style.display = "none";
+                }
+            }
+            </script>
+
+    </section>
+    
+    <section class="scene">
+
+    </section>
+
+</body>
+</html>

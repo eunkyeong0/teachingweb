@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="\public\reset.css">
+    <link rel="stylesheet" href="\public\put.css">
+    <link rel="stylesheet" href="\public\indexstyle.css"> 
+    <link rel="stylesheet" href="\public\mainstyle.css"> 
+	<link rel="stylesheet" href="\public\canvas.css">
+    <link rel="stylesheet" href="\public\comments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+<style>
+
+</style>
+    <title>강의실</title>
+</head>
+<body>
+    <script  src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>   
+    <script  src="/socket.io/socket.io.js" >  </script>
+   
+    <script  src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
+    <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script  src="https://unpkg.com/default-passive-events"></script>
+    
+    
+
+    <button style="width: 10%; float: right; margin-right: 1%;" id="mute">마이크 끄기</button> 
+    <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
+    <br>
+    <br>
+    <div class="container" id="cv">
+    <!-- <div class="button-container" id="button-container">
+            <button id="button-draw"  class="button" onclick='startDraw()' title="Draw"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/draw.svg" /> </button>
+            <button id="button-clear" class="button" onclick='clearCanvas()' title="Clear All"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/clear-all.svg" /></button>
+            <button id="button-select" class="button" onclick='select()' title="Select"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/select.svg" /> </button>
+            <button id="button-hex" class="button" onclick='addHex()' title="Hexagon"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/hexagon.svg" /></button>
+            <button id="button-pent" class="button" onclick='addPent()' title="Pentagon"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/pentagon.svg" /></button>
+            <button id="button-tri" class="button" onclick='addTriangle()' title="Triangle"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/triangle.svg" /></button>
+            <button id="button-rec" class="button" onclick='addRect()' title="Rectangle"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/rectangle.svg" /></button>
+            <button id="button-line" class="button" onclick='addSingle()' title="Single Bond"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/single-bond.svg" /></button>
+            <button id="button-line" class="button" onclick='addText()' title="Text"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/text.svg" /></button>
+            <button id="button-line" class="button" onclick='addArrow()' title="Arrow"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/arrow.svg" /></button>
+
+
+        </div>
+
+        <div id="context-menu">
+            <div class="item" id="toAdelante" hidden>Bring forward</div>
+            <div class="item" id="tofront" hidden>Bring to front</div>
+            <div class="item" id="toAtras" hidden>Send backwards</div>
+            <div class="item" id="toback" hidden>Send to back</div>
+        </div> -->
+
+        <canvas id="a" width="1150px" height="550vh"></canvas>
+       
+        <script  src="\public\draw.js" ></script>
+    </div>
+
+    <video id="video" style="margin-bottom: 1%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>         
+    <video id="peersvideo" style="margin-bottom: 1%; border: 1px solid black; margin-left: 16px;" width="1150px" height="550vh" autoplay></video> 
+    <video id='sharevideo' style="margin-top: 2%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
+
+    <div class="servetext2"style="float: right; margin-top:2%; margin-right:10px">
+   
+    <div id="count" >카운트</div>
+    <hr size="5" width="150px" noshade>
+    <div>강의자: <%=강의자%></div>
+    
+    <hr size="5" width="150px" noshade>
+    <div >참여자 리스트</div>
+    <hr size="5" width="150px" noshade>    
+    <div id="list"></div>       
+   </div>
+
+
+    <div id="chatbox" style=" float:left; width:50%; height: 10vh; overflow: auto; white-space: nowrap; border: 1.2px solid black; margin-left: 16px;">
+        <div id="chat"></div>  
+             
+    </div>   
+
+    <input type="text" id="msg" style="width: 50%; padding: 5px; margin-left: 16px; "required>
+    <button class="btn2" id="send" style="width: 10%; ">채팅하기</button>       
+
+    <i class="fa fa-file-image-o" data-icon="img" style="float:right; margin-right: 3%;font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>
+    <div id="hand" style="float:right; margin-right: 3%;">
+    <i class="fa fa-hand-paper-o" data-icon="noti" style="font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>    
+    </div>
+    
+    
+    <form action="/done" method="post">
+        <input type="hidden" id='number' name='postnum' value="<%=글번호%>">
+        <button type="submit" id="exit" onclick="javascript:exitmg()" style=" float:left; background-color: #4657d3;color: white;padding: 5px 10px;margin: 8px 0;border: none;cursor: pointer;width: 100%;" >수업 종료하기</button>
+        
+    </form>
+
+    <div class="notification-container" id="notification-container">
+        
+    </div>
+     
+    <div id="myStreamv">
+       
+        
+    </div>
+    
+    <div id="errorMsg"></div>
+
+    <script>
+        
+        var socket=io();   
+
+        const pvideo = document.getElementById("peersvideo");
+        const myvideo=document.getElementById('video');
+        //const canv = document.getElementById("a");
+      
+        const muteBtn = document.getElementById("mute");
+        const sharevideo = document.getElementById('sharevideo');
+        
+
+        var currentPeer=new Array();
+        var screenSharing = false;
+
+        let myStream;
+        let myVideo;
+        let sendvideo;
+        let share;
+        let voice;
+        let muted=true;
+        var id;
+
+
+    muteBtn.addEventListener("click", handleMuteClick);
+    const startButton = document.getElementById('startButton');
+
+    startMedia();
+
+    const myPeer=new Peer(undefined,{
+        secure:true,
+        host:'/',
+        port:'443'
+        
+    });
+    myPeer.on('open',function(id){
+        socket.emit('joinroom', '<%=글번호%>',id); 
+        socket.emit('user-send','<%=사용자.nick%>님께서 접속하였습니다.');
+        console.log('peer');
+    }); 
+  
+    socket.on('count',function(data){
+        var list=new Array();
+        for(var i=0;i<data.length; i++){
+            if('<%=글번호%>'==data[i]['room']){
+                list.push({ socket:data[i]['socket']
+                ,  room : String('<%=글번호%>') 
+                , user : data[i]['user']  
+                })  
+            }}
+        console.log(list);
+       document.getElementById('count').innerHTML='현재 참여자 수:'+list.length+'명';
+      
+       $("#list *").remove(); 
+        for(var i=0;i<list.length;i++){
+            $('#list').append('<div>' +list[i]['user']+'</div>');
+       }   
+    });
+
+    socket.on('bye',function(data){
+        $('#chat').append('<div>' +data+'님께서 떠나셨습니다.'+'</div>');
+    });      
+
+
+    $('#send').click(function(){
+    socket.emit('user-send','<%=사용자.nick%>님'+' : '+ $('#msg').val());
+    });
+
+    socket.on('broadcast', function(data) {
+    $('#chat').append('<div>' +data + '</div>');
+    });
+
+    socket.on('exit',function(){
+        location.replace('/board/<%=글번호%>');
+    });
+
+    socket.on('alarm',function(data){
+
+        $("#notification-container").append('<p>'+ '🖐 '+data+'님이 손을 들었습니다.'+'</p>'); 
+        showNotification();
+    });
+
+    $('#msg').keypress(function(event){
+        if ( event.which == 13 ) {
+        $('#send').click();
+        return false;
+    }
+    });
+
+    $('i').click(function(e){
+        if(e.target.dataset.icon=='img'){
+            document.getElementById('tu01').style.display='block'  
+        }
+        else if(e.target.dataset.icon=='noti'){
+            socket.emit('notifi','<%=사용자.nick%>');
+            
+        }                             
+        });
+
+    const $chatbox = $('#chatbox'); 
+    $chatbox.scrollTop($chatbox[0].scrollHeight);
+
+    startButton.addEventListener('click', () => {
+        sharevideo.hidden=false;
+        cv.hidden=true;
+        navigator.mediaDevices.getDisplayMedia({video: true})
+            .then(handleSuccess, handleError);
+        });
+
+        if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
+        startButton.disabled = false;
+        
+        } else {
+        errorMsg('getDisplayMedia is not supported');
+        }
+
+    async function getMedia() {
+    myvideo.muted = true;//뮤트
+        try {
+            myStream = await navigator.mediaDevices.getUserMedia(
+            {
+                video:false,
+                audio:true,
+            })
+
+            console.log(myStream);
+                  
+            voice=myStream.getAudioTracks();
+            
+        } catch (e) {
+            console.log(e);
+        }    
+        
+        const canvas = document.querySelector('canvas');
+       // canvas.getContext('2d', {willReadFrequently: true});
+
+        const mediaStream = canvas.captureStream();
+        
+        
+        //const mediaStream = canv.captureStream();
+        
+
+        myVideo=mediaStream;     
+        myvideo.srcObject = myVideo;
+        console.log(myVideo);
+        //const mStream=myvideo.captureStream(); 
+
+        sendvideo=myvideo.srcObject;
+        sendvideo.addTrack(voice[0]);
+        
+        console.log(sendvideo.getVideoTracks());
+        //sharevideo.addTrack(voice[0]);//새로 추가함 0830
+
+        myPeer.on('call',function(call){
+            console.log('answer');   
+                    
+            call.answer(sendvideo); 
+            call.on('stream',function(userVideoStream){   
+                const sharevoice=document.createElement('audio');
+                addaudio(sharevoice,userVideoStream);
+
+                console.log('비디오 값 넣기');
+        });           
+            
+            //currentPeer = call;
+            currentPeer.push(call);
+            console.log(currentPeer);
+        }); 
+
+        socket.on('user-connected',function(userid){
+            console.log('유저연결: '+userid);
+            
+            setTimeout(connectNewUser,1000,userid,sendvideo);
+                
+        });   
+       
+    }
+
+    function connectNewUser(userid,stream){
+        console.log('connet 함수');
+        const call = myPeer.call(userid, stream);
+
+        call.on('stream',function(userVideoStream){   
+                        
+              pvideo.srcObject=userVideoStream;  
+              myvideo.srcObject=userVideoStream;
+
+              const sharevoice2=document.createElement('audio');
+                addaudio(sharevoice2,userVideoStream);
+             
+            //console.log(myvoice.srcObject);             
+            console.log('비디오 값 넣기');
+        });
+       
+        //currentPeer = call;
+        currentPeer.push(call);
+        console.log(currentPeer);
+    }
+
+
+    function handleMuteClick() {  
+
+        console.log(myStream.getAudioTracks());
+        
+        myStream.getAudioTracks().forEach((track) => track.enabled = !track.enabled);
+        if(!muted) {
+            
+            muteBtn.innerText = "마이크 끄기";
+            muted = true;
+        }
+        else {
+             
+            muteBtn.innerText = "마이크 키기";
+            muted = false;               
+        }
+    }
+
+    function handleSuccess(stream) {
+        startButton.disabled = true;
+        sharevideo.srcObject = stream;
+        share=stream;
+    
+        let videoTrack = share.getVideoTracks()[0];
+   
+        console.log(currentPeer);
+
+        currentPeer.forEach((Peer)=>{
+            let sender = Peer.peerConnection.getSenders().find(function (s) {
+                return s.track.kind === videoTrack.kind;
+            })  
+            sender.replaceTrack(videoTrack);          
+            console.log('바꿈');  
+        });
+           
+            screenSharing = true;
+        
+
+        // demonstrates how to detect that the user has stopped
+        // sharing the screen via the browser UI.
+        stream.getVideoTracks()[0].addEventListener('ended', () => {
+            errorMsg('The user has ended sharing the screen');
+            startButton.disabled = false;
+            sharevideo.hidden=true;
+            cv.hidden=false;
+
+            if (!screenSharing) return;
+
+            let videoTrack = sendvideo.getVideoTracks()[0];
+
+            currentPeer.forEach((Peer)=>{
+            let sender = Peer.peerConnection.getSenders().find(function (s) {
+                return s.track.kind === videoTrack.kind;
+            })  
+            sender.replaceTrack(videoTrack);  
+            
+            });  
+            screenSharing = false;
+
+        });
+             
+        }
+
+        function handleError(error) {
+        errorMsg(`getDisplayMedia error: ${error.name}`, error);
+        }
+
+        function errorMsg(msg, error) {
+        console.log(msg);
+        if (typeof error !== 'undefined') {
+            console.error(error);
+            console.log(error);
+            
+        }
+        }
+
+    function startMedia(){
+    if('<%=사용자.nick%>'=='<%=강의자%>'){
+        sharevideo.hidden=true;
+        myvideo.hidden=true;
+        pvideo.hidden=true;  
+        hand.hidden=true;
+        $('#chat').append('<div>' +'강의자 화면입니다.'+'</div>');
+
+    }else{
+        sharevideo.hidden=true;
+        startButton.hidden=true;
+        cv.hidden=true;
+        exit.hidden=true;
+        myvideo.hidden=true;
+    }
+     getMedia();
+    }
+
+    function addaudio(audio,stream){
+        audio.srcObject=stream;
+        console.log(audio.srcObject);
+        audio.addEventListener('loadedmetadata', () => {
+            audio.play();
+        })
+        $("#myStreamv").append(audio);
+    }
+
+    function exitmg(){
+        socket.emit('user-send','수업이 종료되었습니다.');
+        socket.emit('done');
+    }
+    </script>
+
+    <div id="tu01" class="modal" >
+        <form class="modal-content animate" action="123" method="post">
+           
+          <div class="container" style="background-color:#f1f1f1">
+            
+            <img class="modal-target" alt="Img 1" src="/public/image/<%=글번호%>.png" />
+           
+          </div>
+      
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('tu01').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>               
+           
+
+        </form>
+      </div> 
+
+      
+      <script>
+        // Get the modal
+        var modal = document.getElementById('tu01');
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        </script>
+    <script>
+
+        const notification = document.getElementById('notification-container');
+      
+        function showNotification(){
+            notification.classList.add('show')
+            setTimeout(() => {
+                notification.classList.remove('show')
+                $("#notification-container").empty(); 
+            }, 1500)   
+                     
+        }
+
+    </script>
+
+    <script>
+
+
+
+    </script>
+
+    <script>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+.user-comment{
+
+    margin:0 auto;
+  
+  }
+  .comments-section img {
+    margin-top: 0px;
+    width: 60px;
+  }
+  
+  .comments-section p {
+    line-height: 15px;
+  margin: 0 auto 5px;
+  }
+  
+  .comments-section .comment-author {
+    font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  color: #547ef8;
+   }
+  
+  .comments-section .comment-time {
+    font-size: 11px;
+      margin-left: 10px;
+      color: #a7a5a5;
+      border-bottom: 1px solid #ddd;
+    }
+  
+  .comments-section .comment-content {
+    font-size: 16px;
+    font-weight: 100;
+    padding-bottom: 0px;
+    line-height: 25px;
+    letter-spacing: 1px;
+        color: #888888;
+  }
+  
+  .comments-section .comment-post-reply .comment-content,
+  .comments-section .comment-post-reply .comment-author {
+    color: #888888; }
+  
+  .comments-section textarea {
+    width: 97%;
+    border: 1px solid #ccccccad;
+    border-radius: 4px;
+    padding: 10px; }
+  .comment-like-unlike span i{
+    font-size: 18px;
+      color: #547ef89e;
+      cursor: pointer;
+      margin-right: 10px;
+      width: 30px;
+      height: 25px;
+      text-align: center;
+      line-height: 25px;
+  }
+  .comment-like-unlike span i:hover{
+    color: #547ef8;
+    transition: 0.3s ease-in-out;
+  }
+  .comment-post, .comment-post-reply{
+    display: flex;
+    margin-bottom: 25px;
+  }
+  .comment-details{
+    margin-left: 25px;
+  }
+  .comment-post-reply{
+    margin-left: 85px;
+    margin-bottom: 40px;
+  }
+  .comments-section{
+    padding-top: 40px;
+      border-top: 1px solid #cccccc8a;
+  }
+  .comments-section .btn--blue {
+      -webkit-box-shadow: 0 3px 32px rgba(85, 126, 248, .54);
+      box-shadow: 0 3px 32px rgba(85, 126, 248, .54);
+      background-color: #557ef8;
+      padding: 0 40px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      height: 50px;
+      line-height: 50px;
+      color: #fff;
+      font-size: 16px;
+      display: inline-block;
+      border: none;
+      font-family: Catamaran;
+      font-weight: 400;
+    text-decoration:none;
+    margin-top:10px;
+        float: inherit;
+  }

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+ 
+    <link rel="stylesheet" href="\public\reset.css">
+    <link rel="stylesheet" href="\public\indexstyle.css"> 
+    <link rel="stylesheet" href="\public\mainstyle.css"> 
+    <link rel="stylesheet" href="\public\put.css">
+    <link rel="stylesheet" href="\public\comments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+
+
+    @media (max-width:1271px){
+    .list-group-item2{
+        width: 48%; 
+    }}
+
+    @media (max-width:808px){
+    .list-group-item2{
+        width: 100%; 
+    }}   
+    @media (max-width:700px){
+    .btn2{
+        padding: 2px 2px;
+    } }    
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>게시물</title>
+</head>
+ 
+<body>
+
+    
+    <header class="floating" style="width : 100%; height: 6%; background-color: rgb(39, 39, 226);">
+        <h1 style=" color: white; font-size: 1.9rem;">&nbsp <a href="http://localhost:7070/main">Teaching Web</a> 게시판</h1> 
+        <h2 style=" margin-left: 60%; color: white; font-size: 1.2rem;"><%= 사용자.nick %>님 어서오세요.</h2>   
+        <img src="" alt="">    
+    </header>
+    
+    <div style="background-color: rgb(107, 154, 183); padding-left:5%; width: 65%; height: auto; margin-left:16%; margin-top: 5%; padding-bottom: 5%;">
+           
+        <div class="row">
+
+            <div class="leftcolumn">
+            
+            <div class="maintext1" id="listtag" style="background-color: white; padding: 20px;margin-top: 20px;">
+                <%=data.제목%> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                &nbsp&nbsp&nbsp&nbsp
+                카테고리 : <%=data.카테고리 %></div>
+            
+            <div class="card"><h2 class="servetext">작성자:&nbsp<%=data.작성자%> </h2>
+            작성시간:<%=data.작성시간 %>
+            </div>        
+
+              <div class="card">
+                <h2 class="servetext">본문</h2>
+                
+                <p class="servetext2"><%=data.본문%></p>
+
+                
+                <img class="mathimg" src="/public/image/<%=data._id%>.png" alt="image">
+              </div>
+           
+
+              <% if(사용자.nick == data.작성자){%>
+                <div class="card" id="btn" 
+                style="background-color: rgb(107, 154, 183); text-align: right; padding: 0%; padding-right: 3%;">
+                  <button style="width: 15%;" onclick="location.href='/edit/<%=data._id%>'">수정</button>
+                  <button style="width: 15%;" onclick="location.href='/delete/<%=data._id%>'">삭제</button>
+                </div>
+                <%} %>
+
+           
+            <div class="card"  id="card0" style="height: 30vh;display: none;"> <!--display: none; 업애기-->
+                    
+                <h2 class="servetext" style="width: 80%; float: left; " >일정 잡기</h2>
+                <button class="btn2"style="width: 18%;" onclick="document.getElementById('tu01').style.display='block'">티칭 일정 잡기</button>
+                    
+                <br>
+                <br>
+
+                <div style="overflow: auto; white-space: nowrap; height: 45%;">
+                    <ul class="list-group" style="margin-left: 1%; ">
+                        <% for (var i = 0; i < data.목록.length; i++){ %>
+                        <li class="list-group-item2">
+                          <h4 class="servetext1">
+                            일정: <%= data.목록[i].월 %>월&nbsp<%= data.목록[i].일 %>일&nbsp 
+                            <%= data.목록[i].시 %>시&nbsp <%= data.목록[i].분 %>분</h4>
+                          <p class="servetext1"> 튜터 : <a style="color: black;" href="" >
+                            <%= data.목록[i].튜터%></a></p>
+
+                        <form action="/schedule" method="post" onsubmit="return cheakform();" >
+                            <input type="hidden" name="월" value="<%=data.목록[i].월%>">
+                            <input type="hidden" name="일" value="<%=data.목록[i].일%>">
+                            <input type="hidden" name="시" value="<%=data.목록[i].시%>">
+                            <input type="hidden" name="분" value="<%=data.목록[i].분%>">
+                            <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
+                            <input type="hidden" name="글번호" value="<%= 글번호 %>">
+                            <input type="hidden" name="작성자" value="<%=data.작성자 %>">
+                            <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">선택</button>
+                        </form>  
+                    
+                        <% if(data.목록[i].튜터==사용자.nick){%>
+                        <form action="/del" method="post">
+                            <input type="hidden" name="월" value="<%=data.목록[i].월%>">
+                            <input type="hidden" name="일" value="<%=data.목록[i].일%>">
+                            <input type="hidden" name="시" value="<%=data.목록[i].시%>">
+                            <input type="hidden" name="분" value="<%=data.목록[i].분%>">
+                            <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
+                            <input type="hidden" name="글번호" value="<%= 글번호 %>">
+                            <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">삭제</button>
+                        </form>                         
+                        <%}%>
+                        
+                        </li>
+                        <% } %>
+                       
+                    </ul>
+                    </div>                              
+            </div>
+
+            
+            <div class="card" id="card1" >
+                <h2 class="servetext">수강 대기</h2>
+                <%var cheak;%>
+                    <%for (var i=0; i< data.수강자.length; i++){%>
+                        <%if(data.수강자[i]==사용자.nick){%>
+                            <%cheak=false;%>
+                            <% break; %>
+                        <%}else {%>  
+                            <%cheak=true;%>    
+                        <%}%>
+                    <%}%>
+
+                    
+                <form action="/reservation" method="post" onsubmit="return cheakform2();">
+
+                    <input type="hidden" name="닉" value="<%=사용자.nick%>">
+                    <input type="hidden" name="글번호" value="<%=글번호 %>">
+                    <button type="submit" style="width: 20%; padding: 5px 10px"> 나도 참여하기 </button>
+
+                </form>
+                 <br>
+                <div id="countdown"></div>
+
+            </div>
+            <% var cheakuser; %>
+            <%for (i=0; i< data.수강자.length; i++){%>
+                <%if(data.수강자[i]==사용자.nick){%>
+                        <%cheakuser=true;%>   
+                        <% break; %>
+                <%}else {%>
+                        <%cheakuser=false;%>
+                <%}%>
+            <%}%> 
+            
+            <div class="card" id="card2" >       
+                 
+                
+                <h2 class="servetext">수강 하기</h2>
+
+                <form action="/room/<%=글번호%>" method="get" onsubmit="return cheakform3();">
+                    
+                  <button type="submit">강의 들으러가기</button>  
+                </form>
+
+            </div>
+
+
+            <script>
+            document.getElementById('card1').style.display='none'
+            document.getElementById('card2').style.display='none'
+            $(document).ready(function() { 
+                 $('#recomment').hide(); 
+                 $('#reply').hide();
+            });
+            </script>
+
+         
+                <script>
+                
+                var ap='';
+               
+                var hour=Number('<%=data.시간[0].시%>');
+                console.log(hour);
+                if('<%=data.글상태%>'=='강의대기'||'<%=data.글상태%>'=='강의중'){
+                document.getElementById('card0').style.display='none';
+                document.getElementById('card1').style.display='block';
+                }
+                if(hour>=12){
+                    ap= 'PM';
+                    if(hour>=13){
+                        hour=hour-12;
+                    }
+                }
+                else ap='AM';                     
+                
+      
+                </script>  
+            
+       
+                <div class="card" >
+                    <h2 class="servetext">댓글</h2>
+                    <div class="user-comment">
+                        <div class="comments-section">
+                            
+                        <% for (var i = 0; i < cdata.댓글.length; i++){ %>
+                            <% if(cdata.댓글[i].상태=='댓글'){%>
+                               
+                                <div class="comment-post">
+                                    <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"/></div>
+                                        <div class="comment-details">
+                                            <p><span class="comment-author" ><%=cdata.댓글[i].작성자%></span><span id='time' class="comment-time"><%=cdata.댓글[i].시간%></span></p>
+                                            <p class="comment-content"><%=cdata.댓글[i].내용%></p>
+                                            <div class="comment-like-unlike">
+                                            <span><i class="fa fa-reply"  data-id="<%=cdata.댓글[i].작성자%>" data-num="<%=cdata.댓글[i].번호%>" data-x="f" ></i>
+                                                <i class="fa fa-times" data-num="<%=cdata.댓글[i].번호%>" data-x="t" ></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+
+                                <% for(var k=i+1; k< cdata.댓글.length; k++){%>
+                                    <% if(cdata.댓글[k].상태=='답글' && cdata.댓글[k].답글번호==cdata.댓글[i].번호){%>
+                                        <div class="comment-post-reply">
+                                            <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png"/></div>
+                                            <div class="comment-details">
+                                               <p><span class="comment-author" ><%=cdata.댓글[k].작성자%></span><span class="comment-time"><%=cdata.댓글[k].시간%>&nbsp<%=cdata.댓글[k].답글이름%>에게 쓴 답글</span></p>
+                                               <p class="comment-content"><%=cdata.댓글[k].내용%></p>
+                                               <div class="comment-like-unlike">
+                                                <span><i class="fa fa-reply"  data-id="<%=cdata.댓글[k].작성자%>" data-num="<%=cdata.댓글[k].번호%>" data-x="f" ></i>
+                                                    <i class="fa fa-times" data-num="<%=cdata.댓글[k].번호%>" data-x="t" ></i>
+                                                </span>
+                                               </div>
+                                            </div>
+                                         </div>
+
+                                        <% for(var j=k+1; j< cdata.댓글.length; j++){%>
+                                            <% if(cdata.댓글[j].상태=='답글' && cdata.댓글[j].답글번호==cdata.댓글[k].번호){%>
+                                                <div class="comment-post-reply">
+                                                    <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png"/></div>
+                                                    <div class="comment-details">
+                                                       <p><span class="comment-author" ><%=cdata.댓글[j].작성자%></span><span class="comment-time"><%=cdata.댓글[j].시간%>&nbsp<%=cdata.댓글[j].답글이름%>에게 쓴 답글</span></p>
+                                                       <p class="comment-content"><%=cdata.댓글[j].내용%></p>
+                                                       <div class="comment-like-unlike">
+                                                        <span><i class="fa fa-reply"  data-id="<%=cdata.댓글[j].작성자%>" data-num="<%=cdata.댓글[j].번호%>" data-x="f" ></i>
+                                                            <i class="fa fa-times" data-num="<%=cdata.댓글[j].번호%>" data-x="t" ></i>
+                                                        </span>
+                                                       </div>
+                                                    </div>
+                                                 </div>
+                                                       
+                                            <%}%>
+                                        <%}%>
+
+                                    <%}%>
+                                <%}%> 
+                                
+                            <%}%>
+
+
+                        <%}%>
+
+
+
+                           <div class="comment-add">
+                              <div class="field-comment">
+                                <form action="/comment" method="post">
+              
+                                    <textarea type="text" name="comment" rows="4" cols="50" required></textarea>
+                                    <input type="hidden" name="nickname" value='<%=사용자.nick %>'>
+                                    <input type="hidden" name="postnum" value="<%=글번호 %>">
+                                    <input type="hidden" id='atime' name='wctime' value="">
+                                    <input type="hidden" id="replytf" name="reply" value="댓글">
+                                    <input type="hidden" id="replynum" name="renum" value="">
+                                    <input type="hidden" id="replyname" name="rename" value="">
+
+                                    <script> function combtn(){ 
+                                      let today = new Date();   
+                                      var time=today.toLocaleString();
+                                      document.getElementById('atime').value = time;
+                                      console.log(time);
+                                      console.log(document.getElementById('atime').value);
+                                  } </script>
+                                    <script> function combtn2(){ 
+                                        let today = new Date();   
+                                        var time=today.toLocaleString();
+                                        document.getElementById('atime').value = time;
+                                        console.log(time);
+                                        console.log(document.getElementById('atime').value);
+                                        document.getElementById('replytf').value="답글";
+                                        console.log('답글');
+                                        
+                                    } </script>    
+
+                                <button class="btn btn--blue btn--medium pull-right" id='comment' type="submit"onclick="javascript:combtn()" >댓글 쓰기</button>
+                                <button class="btn btn--blue btn--medium pull-right" id='recomment' type="submit"onclick="javascript:combtn2()" >답글 쓰기</button>
+                             
+                                <div class="comment-like-unlike" id="reply">
+                                    <span><i class="fa fa-times" data-x="v" ></i></span>
+                                </div>    
+                                </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+           
+                
+            </div>
+        </div>
+    
+
+    
+    <script>
+
+    </script>
+    <script>
+          $('i').click(function(e){
+            var num=e.target.dataset.num;
+            var re=e.target.dataset.x;     
+            var board="<%=글번호%>";          
+            console.log('글번호:'+board);
+            if(re=='t'){
+           $.ajax({
+               method : 'DELETE',
+               url : '/delete',
+               data : { number : num, _id:board }
+               }).done(function(결과){
+               
+                
+                })  
+                location.reload();                  
+            } 
+            else if(re=='f'){
+                console.log(num);
+                    document.getElementById('comment').style.display='none';
+                    document.getElementById('recomment').innerHTML=e.target.dataset.id+'님에게 답글하기';
+                    document.getElementById('recomment').style.display='block';
+                    document.getElementById('replynum').value = num;
+                    document.getElementById('replyname').value = e.target.dataset.id;
+                    document.getElementById('reply').style.display='block';
+            }
+            else if(re=='v'){
+                
+                document.getElementById('recomment').style.display='none';                
+                document.getElementById('comment').style.display='block';
+                document.getElementById('reply').style.display='none';
+                document.getElementById('replytf').value="댓글";
+            }
+            //location.reload();         
+            //document.getElementById('reply').innerHTML=name+'선택'+num;      
+                 
+        });
+    </script>
+
+    <script>
+
+    </script>
+
+    <script>
+            
+    </script>
+
+    <div id="tu01" class="modal">
+  
+        <form class="modal-content animate" action="/tutor" method="post">
+          <div class="imgcontainer">
+            <span onclick="document.getElementById('tu01').style.display='none'" class="close" title="Close Modal">&times;</span>
+          </div>
+      
+          <div class="container">
+            <label for="time"><b>시간 일정</b></label>
+            <input type="text" placeholder="월" name="month" required>
+            <input type="text" placeholder="일" name="day" required>
+            <input type="text" placeholder="시 (00시~23시)" name="clock1" required>
+            <input type="text" placeholder="분" name="clock2" required>
+            <input type="hidden" name="작성자" value="<%= 사용자.nick %>"> 
+            <input type="hidden" name="글번호" value="<%= 글번호 %>">
+
+            <button type="submit">신 청</button>
+          </div>
+      
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('tu01').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </form>
+      </div> 
+
+      <script>
+        // Get the modal
+        var modal = document.getElementById('tu01');
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        </script>
+
+
+    <script>
+        function cheakform(){
+          
+            if("<%=data.작성자%>"=="<%=사용자.nick%>"){
+                return true;
+            }
+           else {
+               alert('글의 작성자만 선택할 수 있습니다.');
+               return false; 
+           }
+        }
+
+        function cheakform2(){
+            console.log('<%=cheak%>');
+          if('<%=cheak%>'==true){
+              alert('신청되었습니다.');
+              return true;
+          }
+         else if('<%=cheak%>'==false){
+             alert('이미 신청하였습니다.');
+             return false; 
+         }
+      }
+
+      function cheakform3(){
+          console.log('<%=cheakuser%>');
+         
+          
+          if('<%=cheakuser%>'==true){
+              return true;
+          }
+         else if('<%=cheakuser%>'==false){
+             alert('수강자가 아닙니다.');
+             return false; 
+         }
+      }
+    </script>
+
+
+    <script>
+        
+        var time=('<%=data.시간[0].월%>/<%=data.시간[0].일%>/2022 '+hour+':<%=data.시간[0].분%> '+ap);
+        console.log(time);
+        CountDownTimer(time, 'countdown');
+
+    function CountDownTimer(dt, id){
+
+        var end = new Date(dt);
+
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
+        var timer;
+
+        function showRemaining() {
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+
+                clearInterval(timer);
+                document.getElementById(id).innerHTML = '0일 00시간 0분 0초';
+                document.getElementById('card1').style.display='none';
+                document.getElementById('card2').style.display='block';
+
+                return;
+            }
+
+            else if(distance>100){//나중에
+
+            }
+
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
+
+            document.getElementById(id).innerHTML = days + '일 ';
+            document.getElementById(id).innerHTML += hours + '시간 ';
+            document.getElementById(id).innerHTML += minutes + '분 ';
+            document.getElementById(id).innerHTML += seconds + '초';
+        }
+
+        timer = setInterval(showRemaining, 1000);
+    }
+    </script>
+</body>
+</html>

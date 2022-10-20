@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="\public\reset.css">
+    <link rel="stylesheet" href="\public\indexstyle.css"> 
+    <link rel="stylesheet" href="\public\put.css"> 
+    <title>글수정</title>
+</head>
+<body>
+        <div class="maintext" style="margin-top: 3%; text-align: center;" >
+            글 수 정
+        </div>
+
+    <form action="/edit?_method=PUT" method="post">
+        <input value="<%= data._id %>" name="id" style="display : none">
+        
+        <div class="container" style="margin-top:3%">
+          <label class="servetext" for="title"><b>글제목</b></label>
+          <input type="text" value="<%=data.제목%>" name="title" required>
+<br>
+<br>
+<br>
+
+          <label class="servetext" for="cate"><b>카테고리</b></label>
+          <select type="text" name="cate" required>
+            <option value="미적분">미적분</option>
+            <option value="확률과 통계">확률과 통계</option>
+            <option value="기하와 벡터">기하와 벡터</option>
+            <option value="수학1">수학1</option>
+            <option value="수학2">수학2</option>
+            <option value="방정식">방정식</option>
+            <option value="기타 연산">기타 연산</option>
+            </select>
+<br>
+<br>
+<br>
+
+          <label class="servetext" for="main"><b>본문</b></label>
+
+          <textarea type="text"  name="maintxt" style="padding-bottom: 10%; width:100%;" required><%=data.본문%></textarea>
+<br>
+<br>
+<br>
+          <label class="servetext" for="picture"><b>사진</b></label>
+          <input type="file" enctype="multipart/form-data" name="postimg">
+    
+
+          <script> function editbtn(){ alert('수정이 완료되었습니다.'); } </script>
+          <button type="submit"onclick="javascript:editebtn()" >Edit</button>
+        
+        </div>
+    
+        <div class="container" style="background-color:#f1f1f1">
+          
+        </div>
+      </form>
+</body>
+</html>

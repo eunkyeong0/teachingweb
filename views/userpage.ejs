@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+ 
+    <link rel="stylesheet" href="\public\reset.css">
+    <link rel="stylesheet" href="\public\indexstyle.css"> 
+    <link rel="stylesheet" href="\public\mainstyle.css"> 
+    <link rel="stylesheet" href="\public\put.css">
+    <link rel="stylesheet" href="\public\comments.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+
+
+    @media (max-width:1271px){
+    .list-group-item2{
+        width: 48%; 
+    }}
+
+    @media (max-width:808px){
+    .list-group-item2{
+        width: 100%; 
+    }}   
+    @media (max-width:700px){
+    .btn2{
+        padding: 2px 2px;
+    } }    
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>게시물</title>
+</head>
+ 
+<body>
+
+    
+    <header class="floating" style="width : 100%; height: 6%; background-color: rgb(39, 39, 226);">
+        <h1 style=" color: white; font-size: 1.9rem;">&nbsp <a href="http://localhost:7070/main">Teaching Web</a> 게시판</h1> 
+        <h2 style=" margin-left: 60%; color: white; font-size: 1.2rem;"><%= 사용자.nick %>님 어서오세요.</h2>   
+        <img src="" alt="">    
+    </header>
+    
+    <div style="background-color: rgb(107, 154, 183); padding-left:4%; width: 65%; height: auto; margin-left:16%; margin-top: 5%; padding-bottom: 5%;">
+           
+        <div class="row">
+            <div style="padding-top: 1%;"></div>
+            
+            <div class="maintext1" id="hi" style="background-color: white; padding: 20px;margin-top: 5%; width: 90%;"></div>
+            <script>
+                document.getElementById('hi').innerText=("<%=사용자.nick%>"+"님의 페이지입니다.");
+                
+            </script>            
+            <div class="card" style="width: 90%;">
+               <!-- <h2 class="servetext">사진</h2>-->
+                <h2 class="servetext">자기소개</h2>
+                <p><%=사용자.myself%></p>
+                    <%if(사용자.userid == 주소아이디){%>  
+                        <button style="width: 20%; padding: 5px 10px;" onclick="document.getElementById('tu01').style.display='block'">쓰기</button> 
+                   <%}%>
+
+            </div>          
+               
+            <div class="leftcolumn2">
+           
+            <div class="card"  id="card0">
+                <h2 class="servetext">내가 쓴글</h2>
+                
+                <div style="overflow: auto; white-space: nowrap; height: 45%;">
+                    <ul class="list-group" style="margin-left: 1%; ">
+                        <% for (var i = 0; i < wdata.length; i++){ %>
+                        <li class="list-group-item" style="border: 1px solid;">
+                          <h4 class="servetext1">제목: <a style="color: black;" href="/board/<%=wdata[i]._id %>" ><%= wdata[i].제목 %></a></h4>
+                          <p class="servetext1"> 카테고리 : <%= wdata[i].카테고리%></p>     
+                        </li>
+                        <% } %>
+                       
+                    </ul>
+                    </div>
+            </div>
+            
+            <div class="card" id="card1" >
+                <h2 class="servetext">수업 가르칠 글</h2>
+                <ul class="list-group" style="margin-left: 1%; ">
+                <% for (var i = 0; i < tdata.length; i++){ %>
+                    <% if(tdata[i].글상태=="강의중"||tdata[i].글상태=="강의대기"){%>
+                    <li class="list-group-item" style="border: 1px solid;">
+                      <h4 class="servetext1">제목: <a style="color: black;" href="/board/<%=tdata[i]._id %>" ><%= tdata[i].제목 %></a></h4>
+                      <p class="servetext1"> 카테고리 : <%= tdata[i].카테고리%></p>     
+                    </li>
+                    <%}%>
+                    <% } %>
+                </ul>
+            </div>
+ 
+            </div>
+            <div class="rightcolumn">              
+                <div class="card" id="card2" >                                 
+                    <h2 class="servetext">내가 쓴 댓글</h2>
+                    <div style="overflow: auto; white-space: nowrap; height: 45%;">
+                        <ul class="list-group" style="margin-left: 1%; ">
+                            <% for (var i = 0; i < cdata.length; i++){ %>
+                                
+                                <% for (var j = 0; j < cdata[i].댓글.length; j++){ %>
+                                    <% if(cdata[i].댓글[j].작성자===사용자.nick){%>
+                                    <li class="list-group-item" style="border: 1px solid;">
+                                    <h4 class="servetext1">댓글내용: <a style="color: black;" href="/board/<%=cdata[i].글번호 %>" ><%= cdata[i].댓글[j].내용 %></a></h4>                                         
+                                    </li>                                    
+                                    <%}%>
+                                <%}%>
+                                
+                            <% } %>
+                           
+                        </ul>
+                        </div>
+                </div> 
+                <div class="card" id="card2" >                                 
+                    <h2 class="servetext">수강완료한 강의</h2>
+                    <div style="overflow: auto; white-space: nowrap; height: 45%;">
+                        <ul class="list-group" style="margin-left: 1%; ">
+                            <% for (var i = 0; i < data.length; i++){ %>
+                                <% if(data[i].글상태=="완료"){%>
+                                    <% for (var j = 0; j < data[i].수강자.length; j++){ %>
+                                        <% if(data[i].수강자[j]==사용자.nick){%>
+                                        <li class="list-group-item" style="border: 1px solid;">
+                                        <h4 class="servetext1">제목: <a style="color: black;" href="/board/<%=data[i]._id %>" ><%= data[i].제목 %></a></h4> 
+                                        <p class="servetext1"> 카테고리 : <%= data[i].카테고리%></p>                                         
+                                        </li>                                    
+                                        <%}%>
+                                    <%}%>
+                                <%}%>
+                            <% } %>
+                           
+                        </ul>
+                        </div>
+                </div>                 
+            </div>
+
+    </div>
+    <div class="card" style="width: 90%;">
+        <h2 class="servetext">리뷰 보기</h2> 
+<div>
+    <%if(udata.총평점!=0){%>
+        <h4 class="servetext1" style=" float:left; margin-right: 5%; ">전체 평점:<%= udata.총평점 %></h4> 
+    <% } else { %>
+        <h4 class="servetext1" >전체 평점:<%= udata.총평점 %></h4>
+        <% } %>
+       
+       <div id="totalstar" >
+        
+            <%for(var i=0;i< udata.총평점; i++){%>
+                <label aria-label="1 star" class="rating__label" style="cursor: none;"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    
+            <%}%>
+       </div>    
+</div>
+
+
+            <% for (var i = 0; i < tdata.length; i++){ %>
+                <% for (var j = 0; j < rdata.length; j++){ %>      
+                <% if(tdata[i]._id==rdata[j].글번호 && rdata[j].평가.length>0){%>
+                    <% for (var k = 0; k < rdata[j].평가.length; k++){ %> 
+                        <div class="user-comment">
+                            <div class="comments-section">
+                        <div class="comment-post">
+                            <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"/></div>
+                                <div class="comment-details">
+                                    <p><span class="comment-author" ><%=rdata[j].평가[k].작성자%></span><span id='time' class="comment-time">평점: <%=rdata[j].평가[k].평점%></span></p>
+                                    <p class="comment-content"><%=rdata[j].평가[k].내용%></p>
+                                    <div class="comment-like-unlike">
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                   <%}%>
+                <%}%>
+                <%}%>
+            <%}%>                    
+            
+       
+    </div>            
+    
+                <div class="card" style="width: 90%;">
+                <h2 class="servetext">리뷰 달기</h2>
+            <form action="/rating" method="post">
+                <select type="text" name="title" id="sel" required>
+                    <% for (var i = 0; i < data.length; i++){ %>
+                        <% if(data[i].글상태=="완료"){%>
+                             <% for (var j = 0; j < data[i].수강자.length; j++){ %>      
+                                <% if(data[i].수강자[j]==사용자.nick){%>  
+                                     $("#sel").append(<option id='seltext' value="<%=data[i]._id%>"><%=data[i].제목%>  <%=data[i].작성자%> <%=data[i].카테고리%></option>); 
+                        
+                                <%}%>
+                             <%}%>
+                        <%}%>
+                    <% } %>                    
+                                       
+                    
+                </select>
+
+                <div id="full-stars">
+                    <div class="rating-group">
+                        <input disabled checked class="rating__input rating__input--none" name="rating3" id="rating3-none" value="0" type="radio">
+                        <label aria-label="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating3" id="rating3-1" value="1" type="radio">
+                        <label aria-label="2 stars" class="rating__label" for="rating3-2"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating3" id="rating3-2" value="2" type="radio">
+                        <label aria-label="3 stars" class="rating__label" for="rating3-3"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating3" id="rating3-3" value="3" type="radio">
+                        <label aria-label="4 stars" class="rating__label" for="rating3-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating3" id="rating3-4" value="4" type="radio">
+                        <label aria-label="5 stars" class="rating__label" for="rating3-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        <input class="rating__input" name="rating3" id="rating3-5" value="5" type="radio">
+                    </div>
+                </div>
+
+                <textarea type="text" name="ratingcomment" style="padding-bottom: 10%; width:100%;" required></textarea>
+                <input type="hidden"  name='user' value="<%=사용자.userid%>">
+                <input type="hidden"  name='nick' value="<%=사용자.nick%>">
+                <button type="submit" >후기 남기기</button>
+            </form>
+            </div>
+
+
+    <div id="tu01" class="modal">
+  
+        <form class="modal-content animate" action="/myself" method="post">
+          <div class="imgcontainer">
+            <span onclick="document.getElementById('tu01').style.display='none'" class="close" title="Close Modal">&times;</span>
+          </div>
+      
+          <div class="container">
+            <h2 class="servetext">자기 소개</h2>
+            <textarea type="text" name="mainmyself" style="padding-bottom: 10%; width:100%;" required></textarea>
+            <input type="hidden" name="id" value="<%=사용자.userid %>">
+            <button type="submit" >완 료</button>
+          </div>
+      
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('tu01').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>
+        </form>
+      </div> 
+
+      <script>
+        // Get the modal
+        var modal = document.getElementById('tu01');
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        </script>
+
+  
+
+
+    <script>
+
+    </script>
+
+
+    <script>
+
+    </script>
+
+
+    <script>
+        
+
+    </script>
+</body>
+</html>
