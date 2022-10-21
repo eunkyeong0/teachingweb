@@ -23,7 +23,7 @@
    
     <script  src="https://cdn.jsdelivr.net/npm/fabric@5.2.4/dist/fabric.min.js"></script>
     <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
-    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script  src="https://unpkg.com/default-passive-events"></script>
     
     
@@ -32,33 +32,67 @@
     <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
     <br>
     <br>
-    <div class="container" id="cv">
-    <!-- <div class="button-container" id="button-container">
-            <button id="button-draw"  class="button" onclick='startDraw()' title="Draw"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/draw.svg" /> </button>
-            <button id="button-clear" class="button" onclick='clearCanvas()' title="Clear All"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/clear-all.svg" /></button>
-            <button id="button-select" class="button" onclick='select()' title="Select"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/select.svg" /> </button>
-            <button id="button-hex" class="button" onclick='addHex()' title="Hexagon"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/hexagon.svg" /></button>
-            <button id="button-pent" class="button" onclick='addPent()' title="Pentagon"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/pentagon.svg" /></button>
-            <button id="button-tri" class="button" onclick='addTriangle()' title="Triangle"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/triangle.svg" /></button>
-            <button id="button-rec" class="button" onclick='addRect()' title="Rectangle"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/rectangle.svg" /></button>
-            <button id="button-line" class="button" onclick='addSingle()' title="Single Bond"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/single-bond.svg" /></button>
-            <button id="button-line" class="button" onclick='addText()' title="Text"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/text.svg" /></button>
-            <button id="button-line" class="button" onclick='addArrow()' title="Arrow"><img src="https://raw.githubusercontent.com/craigmateo/chemistry-drawing/77de15031ab1d4dab25e25269d46334f9143ddaa/assets/svg/arrow.svg" /></button>
-
-
-        </div>
-
-        <div id="context-menu">
-            <div class="item" id="toAdelante" hidden>Bring forward</div>
-            <div class="item" id="tofront" hidden>Bring to front</div>
-            <div class="item" id="toAtras" hidden>Send backwards</div>
-            <div class="item" id="toback" hidden>Send to back</div>
-        </div> -->
-
-        <canvas id="a" width="1150px" height="550vh"></canvas>
-       
-        <script  src="\public\draw.js" ></script>
-    </div>
+    <div class="container" style="margin-left: 16px;">
+        <section class="tools-board" id="cv">
+          <div class="row">
+            <label class="title">Shapes</label>
+            <ul class="options">
+              <li class="option tool" id="rectangle">
+                <img src="public/rectangle.svg" alt="">
+                <span></span>
+              </li>
+              <li class="option tool" id="circle">
+                <img src="icons/circle.svg" alt="">
+                <span></span>
+              </li>
+              <li class="option tool" id="triangle">
+                <img src="public/triangle.svg" alt="">
+                <span></span>
+              </li>
+              <li class="option">
+                <input type="checkbox" id="fill-color">
+                <label for="fill-color" >Fill color</label>
+              </li>
+            </ul>
+          </div>
+          <div class="row">
+            <label class="title">Options</label>
+            <ul class="options">
+              <li class="option active tool" id="brush">
+                <img src="public/brush.svg" alt="">
+                <span></span>
+              </li>
+              <li class="option tool" id="eraser">
+                <img src="public/eraser.svg" alt="">
+                <span></span>
+              </li>
+              <li class="option">
+                <input type="range" id="size-slider" min="1" max="30" value="5">
+              </li>
+            </ul>
+          </div>
+          <div class="row colors">
+            <label class="title">Colors</label>
+            <ul class="options">
+              <li class="option"></li>
+              <li class="option selected"></li>
+              <li class="option"></li>
+           
+              <li class="option">
+                <input type="color" id="color-picker" value="#4A98F7">
+              </li>
+            </ul>
+          </div>
+          <div class="row buttons">
+            <button class="clear-canvas">Clear</button>
+         
+          </div>
+        </section>
+        <section class="drawing-board">
+          <canvas id='a' width="1150px" height="550vh"></canvas>
+        </section>
+      </div>
+      <script src="drawing.js"></script>
 
     <video id="video" style="margin-bottom: 1%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>         
     <video id="peersvideo" style="margin-bottom: 1%; border: 1px solid black; margin-left: 16px;" width="1150px" height="550vh" autoplay></video> 
