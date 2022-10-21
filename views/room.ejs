@@ -23,7 +23,7 @@
    
   
     <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
-    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script  src="https://unpkg.com/default-passive-events"></script>
     
     
@@ -230,6 +230,7 @@
        document.getElementById('count1').innerHTML='현재 참여자 수:'+list.length+'명';
       
        $("#list *").remove(); 
+       $("#list1 *").remove(); 
         for(var i=0;i<list.length;i++){
             $('#list').append('<div>' +list[i]['user']+'</div>');
             $('#list1').append('<div>' +list[i]['user']+'</div>');
