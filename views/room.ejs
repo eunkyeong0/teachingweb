@@ -132,14 +132,14 @@
 
     <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px">
    
-    <div id="count" >카운트</div>
+    <div id="count1" >카운트</div>
     <hr size="5" width="150px" noshade>
     <div>강의자: <%=강의자%></div>
     
     <hr size="5" width="150px" noshade>
     <div >참여자 리스트</div>
     <hr size="5" width="150px" noshade>    
-    <div id="list"></div>       
+    <div id="list1"></div>       
    </div>
 
 
@@ -227,10 +227,12 @@
             }}
         console.log(list);
        document.getElementById('count').innerHTML='현재 참여자 수:'+list.length+'명';
+       document.getElementById('count1').innerHTML='현재 참여자 수:'+list.length+'명';
       
        $("#list *").remove(); 
         for(var i=0;i<list.length;i++){
             $('#list').append('<div>' +list[i]['user']+'</div>');
+            $('#list1').append('<div>' +list[i]['user']+'</div>');
        }   
     });
 
@@ -489,8 +491,8 @@
            
           <div class="container" style="background-color:#f1f1f1">
             
-            <img class="modal-target" alt="Img 1" src="/public/image/<%=글번호%>.png" />
-           
+            <img class="modal-target" alt="Img 1" src="https://ifh.cc/g/4g2qTX.png" />
+            // <img class="modal-target" alt="Img 1" src="/public/image/<%=글번호%>.png" />
           </div>
       
           <div class="container" style="background-color:#f1f1f1">
