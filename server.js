@@ -40,7 +40,7 @@ var upload = multer({storage : storage});
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(http, {
   debug:true,
-  port:443,
+
   path: '/peerjs'
 });
 app.use('/', peerServer);
@@ -398,7 +398,7 @@ app.post('/done',function(요청,응답){
       db.collection('posting').updateOne({_id:parseInt(요청.body.postnum)},{$set:{글상태:'완료'}},function(err,result){      
 //        db.collection('rating').insertOne({글번호:parseInt(요청.body.postnum),평가:[]},function(요청,응답){
           응답.redirect('/board/'+요청.body.postnum);
-        console.log('done post db접속햇음1');
+      
           
  //       });     
       });    
