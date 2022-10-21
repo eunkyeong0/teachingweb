@@ -107,6 +107,18 @@
               <canvas id='a' width="1150px" height="550vh"></canvas>
               <script src="\public\drawing.js"></script>
             </section>
+
+            <div class="servetext2"style="float: right; margin-top:2%; margin-right:10px">
+   
+                <div id="count" >카운트</div>
+                <hr size="5" width="150px" noshade>
+                <div>강의자: <%=강의자%></div>
+                
+                <hr size="5" width="150px" noshade>
+                <div >참여자 리스트</div>
+                <hr size="5" width="150px" noshade>    
+                <div id="list"></div>       
+               </div>
           </div>
 
 
@@ -118,7 +130,7 @@
     <video id="peersvideo" style="margin-bottom: 1%; border: 1px solid black; margin-left: 16px;" width="1150px" height="550vh" autoplay></video> 
     <video id='sharevideo' style="margin-top: 2%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
 
-    <div class="servetext2"style="float: right; margin-top:2%; margin-right:10px">
+    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px">
    
     <div id="count" >카운트</div>
     <hr size="5" width="150px" noshade>
@@ -444,6 +456,7 @@
         myvideo.hidden=true;
         pvideo.hidden=true;  
         hand.hidden=true;
+        listuser.hidden=true;
         $('#chat').append('<div>' +'강의자 화면입니다.'+'</div>');
 
     }else{
