@@ -32,69 +32,86 @@
     <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
     <br>
     <br>
-    <div class="container" id="cv">
-        <section class="tools-board" >
-          <div class="row">
-            <label class="title">Shapes</label>
-            <ul class="options">
-              <li class="option tool" id="rectangle">
-                <img src="public/rectangle.svg" alt="">
-                <span></span>
-              </li>
-              <li class="option tool" id="circle">
-                <img src="icons/circle.svg" alt="">
-                <span></span>
-              </li>
-              <li class="option tool" id="triangle">
-                <img src="public/triangle.svg" alt="">
-                <span></span>
-              </li>
-              <li class="option">
-                <input type="checkbox" id="fill-color">
-                <label for="fill-color" >Fill color</label>
-              </li>
-            </ul>
+    <div id="cv">
+        <div class="container" id="cv">
+            <section class="tools-board" >
+              <div class="row">
+                <label class="title">Shapes</label>
+                <ul class="options">
+                  <li class="option tool" id="rectangle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16.301" height="16.301" viewBox="0 0 16.301 16.301">
+                        <path id="square-regular" d="M13.972,32A2.33,2.33,0,0,1,16.3,34.329V45.972A2.331,2.331,0,0,1,13.972,48.3H2.329A2.33,2.33,0,0,1,0,45.972V34.329A2.329,2.329,0,0,1,2.329,32Zm0,1.747H2.329a.582.582,0,0,0-.582.582V45.972a.583.583,0,0,0,.582.582H13.972a.584.584,0,0,0,.582-.582V34.329A.583.583,0,0,0,13.972,33.747Z" transform="translate(0 -32)" fill="#5a6168"/>
+                      </svg>
+                       
+                    <span></span>
+                  </li>
+                  <li class="option tool" id="circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16.301" height="16.301" viewBox="0 0 16.301 16.301">
+                        <path id="circle-regular" d="M16.3,8.15A8.15,8.15,0,1,1,8.15,0,8.15,8.15,0,0,1,16.3,8.15ZM8.15,1.528A6.622,6.622,0,1,0,14.773,8.15,6.621,6.621,0,0,0,8.15,1.528Z" fill="#5a6168"/>
+                      </svg> 
+                      
+                    <span></span>
+                  </li>
+                  <li class="option tool" id="triangle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17.874" height="15.711" viewBox="0 0 17.874 15.711">
+                        <path id="triangle" d="M19.75,17.574,11.71,3.656a.893.893,0,0,0-1.554,0L2.116,17.574a.893.893,0,0,0,.777,1.34h16.08a.893.893,0,0,0,.777-1.34ZM4.438,17.127,10.933,5.889l6.495,11.238Z" transform="translate(-1.996 -3.203)" fill="#5a6168"/>
+                      </svg>
+                        
+                    <span></span>
+                  </li>
+                  <li class="option">
+                    <input type="checkbox" id="fill-color">
+                    <label for="fill-color" >Fill color</label>
+                  </li>
+                </ul>
+              </div>
+              <div class="row">
+                <label class="title">Options</label>
+                <ul class="options">
+                  <li class="option active tool" id="brush">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14.445" height="14.462" viewBox="0 0 14.445 14.462">
+                        <path id="Path_153" data-name="Path 153" d="M8.319,8.378l6.014-6.535a.4.4,0,0,0-.024-.577L13.155.111a.4.4,0,0,0-.553,0L6.066,6.125a.4.4,0,0,0,0,.577L7.742,8.378a.4.4,0,0,0,.577,0Zm-3.44-.89,2.093,2.1a.8.8,0,0,1,.249.457v.393a3.208,3.208,0,0,1-.938,2.277,6.223,6.223,0,0,1-4.739,1.732,2.326,2.326,0,0,1-1.427-.481.4.4,0,0,1-.048-.505,4.772,4.772,0,0,0,.714-2.609A3.626,3.626,0,0,1,1.744,8.17a3.208,3.208,0,0,1,2.269-.938,3.134,3.134,0,0,1,.393,0A.874.874,0,0,1,4.879,7.488Z" fill="#5a6168" fill-rule="evenodd"/>
+                      </svg> 
+                    <span></span>
+                  </li>
+                  <li class="option tool" id="eraser">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17.093" height="16.301" viewBox="0 0 17.093 16.301">
+                        <path id="bx-eraser" d="M2.543,14.46l3.985,3.985a.923.923,0,0,0,.655.272H18.309V16.862h-6.45l6.695-6.695a1.855,1.855,0,0,0,0-2.622l-4.59-4.589a1.857,1.857,0,0,0-2.622,0l-4.4,4.4L2.532,11.849a1.86,1.86,0,0,0,.011,2.61ZM12.653,4.268l4.589,4.589-2.4,2.4L10.256,6.665l2.4-2.4Zm-4.4,4.4.689-.688,4.589,4.589L9.31,16.789a.951.951,0,0,0-.064.073H7.568L3.855,13.148l4.4-4.484Z" transform="translate(-2.003 -2.416)" fill="#5a6168"/>
+                      </svg> 
+                      
+                    <span></span>
+                  </li>
+                  <li class="option">
+                    <input type="range" id="size-slider" min="1" max="30" value="5">
+                  </li>
+                </ul>
+              </div>
+              <div class="row colors">
+                <label class="title">Colors</label>
+                <ul class="options">
+                  <li class="option"></li>
+                  <li class="option selected"></li>
+                  <li class="option"></li>
+               
+                  <li class="option">
+                    <input type="color" id="color-picker" value="#4A98F7">
+                  </li>
+                </ul>
+              </div>
+              <div class="row buttons">
+                <button class="clear-canvas">Clear</button>
+             
+              </div>
+            </section>
+            <section class="drawing-board">
+              <canvas id='a' width="1150px" height="550vh"></canvas>
+              <script src="\public\drawing.js"></script>
+            </section>
           </div>
-          <div class="row">
-            <label class="title">Options</label>
-            <ul class="options">
-              <li class="option active tool" id="brush">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14.445" height="14.462" viewBox="0 0 14.445 14.462">
-                    <path id="Path_153" data-name="Path 153" d="M8.319,8.378l6.014-6.535a.4.4,0,0,0-.024-.577L13.155.111a.4.4,0,0,0-.553,0L6.066,6.125a.4.4,0,0,0,0,.577L7.742,8.378a.4.4,0,0,0,.577,0Zm-3.44-.89,2.093,2.1a.8.8,0,0,1,.249.457v.393a3.208,3.208,0,0,1-.938,2.277,6.223,6.223,0,0,1-4.739,1.732,2.326,2.326,0,0,1-1.427-.481.4.4,0,0,1-.048-.505,4.772,4.772,0,0,0,.714-2.609A3.626,3.626,0,0,1,1.744,8.17a3.208,3.208,0,0,1,2.269-.938,3.134,3.134,0,0,1,.393,0A.874.874,0,0,1,4.879,7.488Z" fill="#5a6168" fill-rule="evenodd"/>
-                  </svg> 
-                <span></span>
-              </li>
-              <li class="option tool" id="eraser">
-                <img src="public/eraser.svg" alt="">
-                <span></span>
-              </li>
-              <li class="option">
-                <input type="range" id="size-slider" min="1" max="30" value="5">
-              </li>
-            </ul>
-          </div>
-          <div class="row colors">
-            <label class="title">Colors</label>
-            <ul class="options">
-              <li class="option"></li>
-              <li class="option selected"></li>
-              <li class="option"></li>
-           
-              <li class="option">
-                <input type="color" id="color-picker" value="#4A98F7">
-              </li>
-            </ul>
-          </div>
-          <div class="row buttons">
-            <button class="clear-canvas">Clear</button>
-         
-          </div>
-        </section>
-        <section class="drawing-board">
-          <canvas id='a' width="1150px" height="550vh"></canvas>
-          <script src="\public\drawing.js"></script>
-        </section>
-      </div>
+
+
+    </div>
+
     
 
     <video id="video" style="margin-bottom: 1%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>         
