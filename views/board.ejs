@@ -196,6 +196,9 @@
                 document.getElementById('card0').style.display='none';
                 document.getElementById('card1').style.display='block';
                 }
+                else if('<%=data.글상태%>'=='완료'){
+                    document.getElementById('card1').style.display='none';
+                }
                 if(hour>=12){
                     ap= 'PM';
                     if(hour>=13){
