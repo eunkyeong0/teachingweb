@@ -140,7 +140,8 @@
     const myPeer=new Peer(undefined,{
         secure:true,
         host:'teaching1901131.herokuapp.com',
-        port:'443'
+        port:'443',
+        path: "peerjs"
         
     });
     myPeer.on('open',function(id){

@@ -41,7 +41,7 @@ const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(http, {
   debug:true,
   port:443,
-  path: '/'
+  path: '/peerjs'
 });
 app.use('/', peerServer);
 
