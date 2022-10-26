@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="\public\put.css">
     <link rel="stylesheet" href="\public\comments.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
+    
     <style>
 
 
@@ -80,7 +82,7 @@
                 <%} %>
 
            
-            <div class="card"  id="card0" style="height: 30vh;display: none;"> <!--display: none; 업애기-->
+            <div class="card"  id="card0" style="height: 30vh;"> 
                     
                 <h2 class="servetext" style="width: 80%; float: left; " >일정 잡기</h2>
                 <button class="btn2"style="width: 18%;" onclick="document.getElementById('tu01').style.display='block'">티칭 일정 잡기</button>
@@ -99,10 +101,7 @@
                             <%= data.목록[i].튜터%></a></p>
 
                         <form action="/schedule" method="post" onsubmit="return cheakform();" >
-                            <input type="hidden" name="월" value="<%=data.목록[i].월%>">
-                            <input type="hidden" name="일" value="<%=data.목록[i].일%>">
-                            <input type="hidden" name="시" value="<%=data.목록[i].시%>">
-                            <input type="hidden" name="분" value="<%=data.목록[i].분%>">
+                            <input type="hidden" name="시간" value="<%=data.목록[i].시간%>">
                             <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
                             <input type="hidden" name="글번호" value="<%= 글번호 %>">
                             <input type="hidden" name="작성자" value="<%=data.작성자 %>">
@@ -111,10 +110,7 @@
                     
                         <% if(data.목록[i].튜터==사용자.nick){%>
                         <form action="/del" method="post">
-                            <input type="hidden" name="월" value="<%=data.목록[i].월%>">
-                            <input type="hidden" name="일" value="<%=data.목록[i].일%>">
-                            <input type="hidden" name="시" value="<%=data.목록[i].시%>">
-                            <input type="hidden" name="분" value="<%=data.목록[i].분%>">
+                            <input type="hidden" name="시간" value="<%=data.목록[i].시간%>">
                             <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
                             <input type="hidden" name="글번호" value="<%= 글번호 %>">
                             <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">삭제</button>
@@ -131,17 +127,7 @@
             
             <div class="card" id="card1" >
                 <h2 class="servetext">수강 대기</h2>
-                <%var cheak;%>
-                    <%for (var i=0; i< data.수강자.length; i++){%>
-                        <%if(data.수강자[i]==사용자.nick){%>
-                            <%cheak=false;%>
-                            <% break; %>
-                        <%}else {%>  
-                            <%cheak=true;%>    
-                        <%}%>
-                    <%}%>
 
-                    
                 <form action="/reservation" method="post" onsubmit="return cheakform2();">
 
                     <input type="hidden" name="닉" value="<%=사용자.nick%>">
@@ -153,15 +139,7 @@
                 <div id="countdown"></div>
 
             </div>
-            <% var cheakuser; %>
-            <%for (i=0; i< data.수강자.length; i++){%>
-                <%if(data.수강자[i]==사용자.nick){%>
-                        <%cheakuser=true;%>   
-                        <% break; %>
-                <%}else {%>
-                        <%cheakuser=false;%>
-                <%}%>
-            <%}%> 
+
             
             <div class="card" id="card2" >       
                  
@@ -177,28 +155,37 @@
 
 
             <script>
-            document.getElementById('card1').style.display='none'
-            document.getElementById('card2').style.display='none'
+
             $(document).ready(function() { 
+                if('<%=data.글상태%>'=='강의대기'||'<%=data.글상태%>'=='강의중'){
+                    document.getElementById('card0').style.display='none'; //예약 목록
+                    document.getElementById('card1').style.display='block'; //나도 참여하기,카운트다운
+                    document.getElementById('card2').style.display='none';//수강하기 버튼
+                }
+                else if('<%=data.글상태%>'=='완료'){
+                    document.getElementById('card0').style.display='none';   
+                    document.getElementById('card1').style.display='none';                
+                    document.getElementById('card2').style.display='none';
+                }
+                else{
+                    document.getElementById('card0').style.display='block';
+                    document.getElementById('card1').style.display='none';
+                    document.getElementById('card2').style.display='none'  ;                  
+                }
                  $('#recomment').hide(); 
                  $('#reply').hide();
+                 console.log('<%=data.수강자.length%>');
             });
             </script>
 
          
-                <script>
+                <!-- <script>
                 
                 var ap='';
                
                 var hour=Number('<%=data.시간[0].시%>');
                 console.log(hour);
-                if('<%=data.글상태%>'=='강의대기'||'<%=data.글상태%>'=='강의중'){
-                document.getElementById('card0').style.display='none';
-                document.getElementById('card1').style.display='block';
-                }
-                else if('<%=data.글상태%>'=='완료'){
-                    document.getElementById('card1').style.display='none';
-                }
+
                 if(hour>=12){
                     ap= 'PM';
                     if(hour>=13){
@@ -208,7 +195,7 @@
                 else ap='AM';                     
                 
       
-                </script>  
+                </script>   -->
             
        
                 <div class="card" >
@@ -220,7 +207,7 @@
                             <% if(cdata.댓글[i].상태=='댓글'){%>
                                
                                 <div class="comment-post">
-                                    <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-372-456324.png"/></div>
+                                 
                                         <div class="comment-details">
                                             <p><span class="comment-author" ><%=cdata.댓글[i].작성자%></span><span id='time' class="comment-time"><%=cdata.댓글[i].시간%></span></p>
                                             <p class="comment-content"><%=cdata.댓글[i].내용%></p>
@@ -236,7 +223,7 @@
                                 <% for(var k=i+1; k< cdata.댓글.length; k++){%>
                                     <% if(cdata.댓글[k].상태=='답글' && cdata.댓글[k].답글번호==cdata.댓글[i].번호){%>
                                         <div class="comment-post-reply">
-                                            <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png"/></div>
+                                            
                                             <div class="comment-details">
                                                <p><span class="comment-author" ><%=cdata.댓글[k].작성자%></span><span class="comment-time"><%=cdata.댓글[k].시간%>&nbsp<%=cdata.댓글[k].답글이름%>에게 쓴 답글</span></p>
                                                <p class="comment-content"><%=cdata.댓글[k].내용%></p>
@@ -251,7 +238,7 @@
                                         <% for(var j=k+1; j< cdata.댓글.length; j++){%>
                                             <% if(cdata.댓글[j].상태=='답글' && cdata.댓글[j].답글번호==cdata.댓글[k].번호){%>
                                                 <div class="comment-post-reply">
-                                                    <div class="comment-img"><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png"/></div>
+                                                   
                                                     <div class="comment-details">
                                                        <p><span class="comment-author" ><%=cdata.댓글[j].작성자%></span><span class="comment-time"><%=cdata.댓글[j].시간%>&nbsp<%=cdata.댓글[j].답글이름%>에게 쓴 답글</span></p>
                                                        <p class="comment-content"><%=cdata.댓글[j].내용%></p>
@@ -384,10 +371,20 @@
       
           <div class="container">
             <label for="time"><b>시간 일정</b></label>
-            <input type="text" placeholder="월" name="month" required>
+            <input type="text" name='시간일정' id="datepicker">
+
+            <script>
+                 $("#datepicker").datepicker({
+                    timepicker: true,
+                    timeFormat: 'hh:mm AA',
+                    minDate: "0"
+                });                 
+            </script>     
+              
+            <!-- <input type="text" placeholder="월" name="month" required>
             <input type="text" placeholder="일" name="day" required>
             <input type="text" placeholder="시 (00시~23시)" name="clock1" required>
-            <input type="text" placeholder="분" name="clock2" required>
+            <input type="text" placeholder="분" name="clock2" required> -->
             <input type="hidden" name="작성자" value="<%= 사용자.nick %>"> 
             <input type="hidden" name="글번호" value="<%= 글번호 %>">
 
@@ -425,21 +422,39 @@
            }
         }
 
-        function cheakform2(){
-            console.log('<%=cheak%>');
-          if('<%=cheak%>'==true){
+        function cheakform2(){//나도 참여하기
+            console.log('<%=data.수강자.length%>');
+            var cheak;
+                for (var i=0; i< '<%=data.수강자.length%>'; i++){
+                    if('<%=data.수강자[i]%>'=='사용자.nick'){
+                        cheak=false;
+                        break;
+                    }else { 
+                        cheak=true;  
+                    }
+                }
+
+          if(cheak==true){
               alert('신청되었습니다.');
               return true;
           }
-         else if('<%=cheak%>'==false){
-             alert('이미 신청하였습니다.');
+         else if(cheak==false){
+             alert('이미 신청되었습니다.');
              return false; 
          }
       }
 
-      function cheakform3(){
-          console.log('<%=cheakuser%>');
-         
+      function cheakform3(){//강의 듣기
+          
+          var cheakuser;
+            for (i=0; i< '<%=data.수강자.length%>'; i++){
+                if(data.수강자[i]==사용자.nick){
+                        cheakuser=true;   
+                        break; 
+                }else {
+                        cheakuser=false;
+                }
+            }        
           
           if('<%=cheakuser%>'==true){
               return true;
@@ -454,7 +469,7 @@
 
     <script>
         
-        var time=('<%=data.시간[0].월%>/<%=data.시간[0].일%>/2022 '+hour+':<%=data.시간[0].분%> '+ap);
+        var time=('<%=data.시간%>');
         console.log(time);
         CountDownTimer(time, 'countdown');
 
@@ -481,10 +496,13 @@
                 return;
             }
 
-            else if(distance>100){//나중에
-
+            else if(Math.floor(distance / _day)>100){//나중에
+                document.getElementById('card0').style.display='block';
+                document.getElementById('card1').style.display='none'
+                document.getElementById('card2').style.display='none' 
             }
 
+            else{
             var days = Math.floor(distance / _day);
             var hours = Math.floor((distance % _day) / _hour);
             var minutes = Math.floor((distance % _hour) / _minute);
@@ -493,7 +511,9 @@
             document.getElementById(id).innerHTML = days + '일 ';
             document.getElementById(id).innerHTML += hours + '시간 ';
             document.getElementById(id).innerHTML += minutes + '분 ';
-            document.getElementById(id).innerHTML += seconds + '초';
+            document.getElementById(id).innerHTML += seconds + '초';                
+            }
+
         }
 
         timer = setInterval(showRemaining, 1000);

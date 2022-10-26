@@ -83,11 +83,11 @@ app.post('/write',function(req,res){
   db.collection('counter').findOne({name:'글수'},function(err,result){
     console.log(result.totalNum);
     var total=result.totalNum;
-  db.collection('posting').insertOne( {제목 : req.body.title,본문 : req.body.maintxt ,카테고리:req.body.cate,작성자:req.user.nick ,_id : total+1,작성시간:req.body.wtime ,목록:[], 시간:[], 글상태:'모집중',수강자:[]} , function(err, result){
+  db.collection('posting').insertOne( {제목 : req.body.title,본문 : req.body.maintxt ,카테고리:req.body.cate,작성자:req.user.nick ,_id : total+1,작성시간:req.body.wtime ,목록:[],시간:'05/12/2023 10:02 AM', 글상태:'모집중',수강자:[]} , function(err, result){
       console.log('저장완료'); 
-      db.collection('posting').updateOne({_id:total+1},{$push :{시간:{$each:[{월:'5',
-        일:'19',시:'04',분:'28' }]}} },function(요청,응답){
-      });//이건 테스트용으로 새로 추가한거..
+      // db.collection('posting').updateOne({_id:total+1},{$push :{시간:{$each:[{월:'12',
+      //   일:'31',시:'04',분:'28' }]}} },function(요청,응답){
+      // });//이건 테스트용으로 새로 추가한거..
       db.collection('counter').updateOne({name:'글수'},{$inc:{totalNum:1}},function(err,result){
         if(err) return console.log(err);
          })   
@@ -218,6 +218,8 @@ app.get('/delete/:id', function(요청, 응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
     db.collection('posting').deleteOne({_id:parseInt(요청.params.id)}, function(에러, 결과){
+      db.collection('comment').deleteOne({글번호:parseInt(요청.params.id)}, function(에러, 결과){
+      })
   })
   응답.redirect('/main');
 });
@@ -283,9 +285,8 @@ app.post('/tutor',function(요청,응답){
     if (에러) return console.log(에러)
     db=client.db('test');
     
-    db.collection('posting').updateOne({_id : parseInt(요청.body.글번호)},{$push :{목록:{$each:[{월:요청.body.month,
-    일:요청.body.day,시:요청.body.clock1,분:요청.body.clock2,튜터:요청.body.작성자}],$sort: {월:1,일:1,시:1,분:1}
-  }} },function(err,result){
+    db.collection('posting').updateOne({_id : parseInt(요청.body.글번호)},{$push :{목록:{$each:[{시간:요청.body.시간일정,
+      튜터:요청.body.작성자}],$sort: {시간:1}}} },function(err,result){
       
     });    
   });
@@ -297,8 +298,7 @@ app.post('/del',function(요청,응답){
    
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
    db=client.db('test');
-  db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$pull: { 목록: { 월:요청.body.월 , 일:요청.body.일,
-    시:요청.body.시,분:요청.body.분,튜터:요청.body.튜터 } }},function(err,result){
+  db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$pull: { 목록: { 시간:요청.body.시간,튜터:요청.body.튜터 } }},function(err,result){
    });
   });
   var num=요청.body.글번호;
@@ -346,8 +346,9 @@ app.post('/schedule',function(요청,응답){
     db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$push:{수강자:요청.body.작성자}},function(err,result){
     });  
 
-    db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$set:{강의자:요청.body.튜터,글상태:'강의대기'}},function(err,result){
+    db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$set:{시간:요청.body.시간,강의자:요청.body.튜터,글상태:'강의대기'}},function(err,result){
     });
+
 
 
      
