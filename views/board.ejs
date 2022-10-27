@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="\public\mainstyle.css"> 
     <link rel="stylesheet" href="\public\put.css">
     <link rel="stylesheet" href="\public\comments.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css" > 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
-    
+ 
     <style>
 
 
@@ -35,6 +35,10 @@
 
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" ></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <title>게시물</title>
 </head>
  
@@ -95,10 +99,11 @@
                         <% for (var i = 0; i < data.목록.length; i++){ %>
                         <li class="list-group-item2">
                           <h4 class="servetext1">
-                            일정: <%= data.목록[i].시간 %>월&nbsp</h4>
+                            일정: <%= data.목록[i].시간 %>&nbsp</h4>
                           <p class="servetext1"> 튜터 : <a style="color: black;" href="" >
                             <%= data.목록[i].튜터%></a></p>
 
+                        <% if(data.작성자==사용자.nick){%>
                         <form action="/schedule" method="post" onsubmit="return cheakform();" >
                             <input type="hidden" name="시간" value="<%=data.목록[i].시간%>">
                             <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
@@ -106,7 +111,7 @@
                             <input type="hidden" name="작성자" value="<%=data.작성자 %>">
                             <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">선택</button>
                         </form>  
-                    
+                        <%}%>
                         <% if(data.목록[i].튜터==사용자.nick){%>
                         <form action="/del" method="post">
                             <input type="hidden" name="시간" value="<%=data.목록[i].시간%>">
@@ -373,11 +378,20 @@
             <input type="text" name='시간일정' id="datepicker">
 
             <script>
-                 $("#datepicker").datepicker({
-                    timepicker: true,
-                    timeFormat: 'hh:mm AA',
-                    minDate: "0"
-                });                 
+                $('input[name="시간일정"]').daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    timePicker: true,
+                    minYear: 2022,
+                    locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                     }
+                });
+                //  $("#datepicker").datepicker({
+                //     timepicker: true,
+                //     timeFormat: 'hh:mm AA',
+                //     minDate: "0"
+                // });               
             </script>     
               
             <!-- <input type="text" placeholder="월" name="month" required>
@@ -455,10 +469,10 @@
                 }
             }        
           
-          if('<%=cheakuser%>'==true){
+          if(cheakuser==true){
               return true;
           }
-         else if('<%=cheakuser%>'==false){
+         else if(cheakuser==false){
              alert('수강자가 아닙니다.');
              return false; 
          }

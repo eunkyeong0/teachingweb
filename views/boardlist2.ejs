@@ -40,12 +40,14 @@
 
     <div class="maincon">
         <div class="maintext1" id="listtag" >게시물&nbsp:&nbsp<%=카테%> 
-            <a style="background-color: rgb(107, 154, 183); text-align: right;" href="/write">>글쓰기</a></div>
-
-        <ul class="list-group" style="padding: 3%;">
+            <a style="background-color: rgb(107, 154, 183); text-align: right;" href="/write">>글쓰기</a>
+            <a style="background-color: rgb(107, 154, 183); text-align: right;" href="/userpage/<%=사용자.userid%>">>마이페이지</a>
+        </div>
+            <ul class="list-group" style="padding: 3%;">
            
             <% for (var i = 0; i < posts.length; i++){ %>
             <li class="list-group-item" style="border: 1px solid;">
+              <h5 class="servetext2" style=" text-align: right; float: right; padding-right: 2%;">상태: <%= posts[i].글상태 %></h5>
               <h4 class="servetext1"> <a style="color: black;" href="/board/<%=posts[i]._id %>" >
                 제목 : <%= posts[i].제목 %></a> </h4>
               <p class="servetext1"> 작성자 : <%= posts[i].작성자%> </p>
