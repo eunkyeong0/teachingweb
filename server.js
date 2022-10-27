@@ -172,10 +172,11 @@ app.get('/board/:id', function(요청, 응답){
     db=client.db('test');
     db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
     db.collection('comment').findOne({글번호:parseInt(요청.params.id)},function(err,result2){
-      응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2});
+      db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result3){
+        응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3.주소});
+        });
       });
-    })  
-
+    });
     });
   });
 
@@ -204,6 +205,9 @@ app.get('/delete/:id', function(요청, 응답){
     db=client.db('test');
     db.collection('posting').deleteOne({_id:parseInt(요청.params.id)}, function(에러, 결과){
       db.collection('comment').deleteOne({글번호:parseInt(요청.params.id)}, function(에러, 결과){
+        db.collection('image').deleteOne({_id:parseInt(요청.params.id)}, function(에러, 결과){
+        
+        })        
       })
   })
   응답.redirect('/main');
@@ -364,13 +368,16 @@ app.get('/room/:id',function(요청,응답){
        });    
    
 
- db.collection('posting').findOne({_id:parseInt(요청.params.id)},function(err,result){
-      
-  usernick=요청.user.nick;
-  console.log(result.강의자);
+        db.collection('posting').findOne({_id:parseInt(요청.params.id)},function(err,result){
+              
+          usernick=요청.user.nick;
+          console.log(result.강의자);
 
-응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자});  
-
+          db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result1){ 
+            응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자,이미지주소:result1.주소});  
+  
+       });
+        
      });
    
   });
