@@ -69,18 +69,18 @@ app.post('/write',function(req,res){
     console.log(result.totalNum);
     var total=result.totalNum;
   db.collection('posting').insertOne( {제목 : req.body.title,본문 : req.body.maintxt ,카테고리:req.body.cate,작성자:req.user.nick ,_id : total+1,작성시간:req.body.wtime ,목록:[],시간:'05/12/2023 10:02 AM', 글상태:'모집중',수강자:[]} , function(err, result){
-      console.log('저장완료'); 
-      // db.collection('posting').updateOne({_id:total+1},{$push :{시간:{$each:[{월:'12',
-      //   일:'31',시:'04',분:'28' }]}} },function(요청,응답){
-      // });//이건 테스트용으로 새로 추가한거..
-      db.collection('counter').updateOne({name:'글수'},{$inc:{totalNum:1}},function(err,result){
+
+   db.collection('counter').updateOne({name:'글수'},{$inc:{totalNum:1}},function(err,result){
         if(err) return console.log(err);
          })   
-      });
+   });
    db.collection('comment').insertOne({글번호:total+1 ,총댓글수:0, 댓글:[]
 
    });  
      
+   db.collection('image').insertOne({_id : total+1, 주소:req.body.이미지
+
+   });
     });
   }); 
   res.redirect('/main') 

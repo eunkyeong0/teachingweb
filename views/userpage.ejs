@@ -33,7 +33,7 @@
 
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>게시물</title>
+    <title>유저페이지</title>
 </head>
  
 <body>
@@ -52,21 +52,21 @@
             
             <div class="maintext1" id="hi" style="background-color: white; padding: 20px;margin-top: 5%; width: 90%;"></div>
             <script>
-                document.getElementById('hi').innerText=("<%=사용자.nick%>"+"님의 페이지입니다.");
+                document.getElementById('hi').innerText=("<%=udata.nick%>"+"님의 페이지입니다.");
                 
             </script>            
             <div class="card" style="width: 90%;">
                <!-- <h2 class="servetext">사진</h2>-->
                 <h2 class="servetext">자기소개</h2>
-                <p><%=사용자.myself%></p>
+                <p><%=udata.myself%></p>
                     <%if(사용자.userid == 주소아이디){%>  
                         <button style="width: 20%; padding: 5px 10px;" onclick="document.getElementById('tu01').style.display='block'">쓰기</button> 
                    <%}%>
 
             </div>          
-               
+               <%if(사용자.userid == 주소아이디){%>  
             <div class="leftcolumn2">
-           
+                        
             <div class="card"  id="card0">
                 <h2 class="servetext">내가 쓴글</h2>
                 
@@ -139,7 +139,7 @@
                         </div>
                 </div>                 
             </div>
-
+            <%}%>
     </div>
     <div class="card" style="width: 90%;">
         <h2 class="servetext">리뷰 보기</h2> 
@@ -185,7 +185,7 @@
        
     </div>            
     
-                <div class="card" style="width: 90%;">
+                <!-- <div class="card" style="width: 90%;">
                 <h2 class="servetext">리뷰 달기</h2>
             <form action="/rating" method="post">
                 <select type="text" name="title" id="sel" required>
@@ -224,7 +224,7 @@
                 <input type="hidden"  name='nick' value="<%=사용자.nick%>">
                 <button type="submit" >후기 남기기</button>
             </form>
-            </div>
+            </div> -->
 
 
     <div id="tu01" class="modal">

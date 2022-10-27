@@ -165,16 +165,19 @@
                     document.getElementById('card0').style.display='none'; //예약 목록
                     document.getElementById('card1').style.display='block'; //나도 참여하기,카운트다운
                     document.getElementById('card2').style.display='none';//수강하기 버튼
+                    document.getElementById('card4').style.display='none';//리뷰
                 }
                 else if('<%=data.글상태%>'=='완료'){
                     document.getElementById('card0').style.display='none';   
                     document.getElementById('card1').style.display='none';                
                     document.getElementById('card2').style.display='none';
+                    document.getElementById('card4').style.display='block';
                 }
                 else{
                     document.getElementById('card0').style.display='block';
                     document.getElementById('card1').style.display='none';
-                    document.getElementById('card2').style.display='none'  ;                  
+                    document.getElementById('card2').style.display='none'  ;    
+                    document.getElementById('card4').style.display='none';              
                 }
                  $('#recomment').hide(); 
                  $('#reply').hide();
@@ -182,26 +185,7 @@
             });
             </script>
 
-         
-                <!-- <script>
-                
-                var ap='';
-               
-                var hour=Number('<%=data.시간[0].시%>');
-                console.log(hour);
-
-                if(hour>=12){
-                    ap= 'PM';
-                    if(hour>=13){
-                        hour=hour-12;
-                    }
-                }
-                else ap='AM';                     
-                
-      
-                </script>   -->
             
-       
                 <div class="card" >
                     <h2 class="servetext">댓글</h2>
                     <div class="user-comment">
@@ -310,7 +294,44 @@
                      </div>
                   </div>
            
-                
+                <div class="card" id='card4' style="width: 90%;">
+                    <h2 class="servetext" id="review">리뷰 달기</h2>
+                                        
+                        <% for (var j = 0; j < data.수강자.length; j++){ %>      
+                            <% if(data.수강자[j]==사용자.nick){%>  
+                                <form action="/rating" method="post">              
+                                    <div id="full-stars">
+                                        <div class="rating-group">
+                                            <input disabled checked class="rating__input rating__input--none" name="rating3" id="rating3-none" value="0" type="radio">
+                                            <label aria-label="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-1" value="1" type="radio">
+                                            <label aria-label="2 stars" class="rating__label" for="rating3-2"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-2" value="2" type="radio">
+                                            <label aria-label="3 stars" class="rating__label" for="rating3-3"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-3" value="3" type="radio">
+                                            <label aria-label="4 stars" class="rating__label" for="rating3-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-4" value="4" type="radio">
+                                            <label aria-label="5 stars" class="rating__label" for="rating3-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                            <input class="rating__input" name="rating3" id="rating3-5" value="5" type="radio">
+                                        </div>
+                                    </div>
+                    
+                                    <textarea type="text" name="ratingcomment" style="padding-bottom: 10%; width:100%;" required></textarea>
+                                    <input type="hidden"  name='user' value="<%=사용자.userid%>">
+                                    <input type="hidden"  name='nick' value="<%=사용자.nick%>">
+                                    <input type="hidden"  name='title' value="<%=data._id%>">
+                                    <button type="submit" >후기 남기기</button>
+                                </form>
+                                break;
+                            <%}%>
+                            <% else{%>
+                                document.getElementById('review').innerHTML='신청하지 않은 강의입니다.';
+                            <%}%>
+                        <%}%>
+
+                </div>
+
+
             </div>
         </div>
     
