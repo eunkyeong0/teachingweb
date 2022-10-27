@@ -1,5 +1,7 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+app.use(express.json({limit : "10mb"}));
+app.use(express.urlencoded({limit:"10mb",extended: false}));
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
@@ -17,10 +19,8 @@ app.use(session({secret : '비밀코드', resave : true, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-// app.use(express.json({limit: "10mb", extended: true}))
-// app.use(express.urlencoded({limit: "10mb", extended: true, parameterLimit: 50000}))
-app.use(express.json({limit: '100mb'}));
-app.use(express.urlencoded({limit: '100mb', extended: false}));
+
+
 
 var db;
 
@@ -176,7 +176,7 @@ app.get('/board/:id', function(요청, 응답){
     db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
     db.collection('comment').findOne({글번호:parseInt(요청.params.id)},function(err,result2){
       db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result3){
-        응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3.주소});
+        응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3});
         });
       });
     });
@@ -195,11 +195,14 @@ app.get('/edit/:id',function(요청,응답){
 app.put('/edit',function(요청,응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
-    db.collection('posting').updateOne({_id : parseInt(요청.body.id)},
-    {$set : {제목 :요청.body.title ,본문 : 요청.body.maintxt,카테고리:요청.body.cate}},function(err,result){
-      var num=parseInt(요청.body.id);
-      응답.redirect('/board/'+num);
+    db.collection('image').updateOne({_id : parseInt(요청.body.id)},{$set:{주소:요청.body.이미지}},function(err,result0){
+      db.collection('posting').updateOne({_id : parseInt(요청.body.id)},
+      {$set : {제목 :요청.body.title ,본문 : 요청.body.maintxt,카테고리:요청.body.cate}},function(err,result){
+        var num=parseInt(요청.body.id);
+        응답.redirect('/board/'+num);
+      });
     });
+
     });     
 });
 

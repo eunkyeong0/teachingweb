@@ -73,7 +73,7 @@
 
                 
                 <!-- <img class="mathimg" src="https://ifh.cc/g/4g2qTX.png" alt="image"> -->
-                <img class="mathimg" src="<%=이미지주소%>">
+                <img class="mathimg" src="<%=이미지주소.주소%>">
                 <!-- <img class="mathimg" src="/public/image/<%=data._id%>.png" alt="image"> -->
               </div>
            
@@ -324,8 +324,8 @@
                                     <button type="submit" >후기 남기기</button>
                                 </form>
                                 break;
-                            <%}%>
-                            <% else{%>
+                            <%}else{%>
+                            
                                 document.getElementById('review').innerHTML='신청하지 않은 강의입니다.';
                             <%}%>
                         <%}%>
