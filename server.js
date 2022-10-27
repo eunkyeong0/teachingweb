@@ -17,8 +17,10 @@ app.use(session({secret : '비밀코드', resave : true, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-app.use(express.json({limit: "10mb", extended: true}))
-app.use(express.urlencoded({limit: "10mb", extended: true, parameterLimit: 50000}))
+// app.use(express.json({limit: "10mb", extended: true}))
+// app.use(express.urlencoded({limit: "10mb", extended: true, parameterLimit: 50000}))
+app.use(express.json({limit: '100mb'}));
+app.use(express.urlencoded({limit: '100mb', extended: false}));
 
 var db;
 
