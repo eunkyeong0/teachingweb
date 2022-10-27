@@ -17,7 +17,7 @@ app.use(session({secret : '비밀코드', resave : true, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-
+app.use(bodyParser.json({limit: 5000000}));
 
 var db;
 
