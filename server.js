@@ -20,23 +20,8 @@ app.use(passport.session());
 
 
 var db;
-let multer = require('multer');
-const { equal } = require('assert');
-const { ObjectId } = require('mongodb');
-//const { ObjectID, ObjectId } = require('bson');
-var storage = multer.diskStorage({
 
-  destination : function(req, file, cb){
-    cb(null, './public/image')
-  },
-  filename : function(req, file, cb){
-    cb(null, file.originalname )
-  }
-
-});
-
-var upload = multer({storage : storage});
-  const port = process.env.PORT || 8080 ;
+const port = process.env.PORT || 8080 ;
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(http, {
   debug:true,
