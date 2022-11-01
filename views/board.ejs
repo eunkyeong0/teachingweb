@@ -300,7 +300,7 @@
                   </div>
            
                 <div class="card" id='card4'>
-                    <h2 class="servetext" id="review">리뷰 달기</h2>
+                    <h2 class="servetext" >리뷰 달기</h2>
                     <h2 class="servetext" id='review' style="margin-left: 35%; display: none;">신청하지 않은 강의입니다.</h2>                    
                         <% for (var j = 0; j < data.수강자.length; j++){ %>      
                             <% if(data.수강자[j]==사용자.nick){%>  
@@ -330,7 +330,7 @@
                                 <%break;%>
                             <%}else{%>
                                 <script>
-                                    review.hidden=false;
+                                    document.getElementById('review').style.display='block';
                                 </script>
                             <%}%>
                         <%}%>
