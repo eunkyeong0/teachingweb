@@ -176,7 +176,9 @@ app.get('/board/:id', function(요청, 응답){
     db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
     db.collection('comment').findOne({글번호:parseInt(요청.params.id)},function(err,result2){
       db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result3){
-        응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3});
+        db.collection('rating').findOne({글번호:parseInt(요청.params.id)},function(err,result4){
+          응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3,후기:result4.평가});
+          });
         });
       });
     });
