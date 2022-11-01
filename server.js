@@ -186,9 +186,12 @@ app.get('/board/:id', function(요청, 응답){
 app.get('/edit/:id',function(요청,응답){
     MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
-    db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
-      응답.render('edit.ejs',{data:result});    
-    });
+    db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result0){
+      db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
+        응답.render('edit.ejs',{data:result,imgdata:result0});    
+      });
+    })
+
     });
 });
 
@@ -224,7 +227,7 @@ app.get('/delete/:id', function(요청, 응답){
 app.get('/userpage/username/:nick',function(요청,응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');  
-    db.collection('post').findOne({nick:parseInt(요청.params.nick)}, function(에러, 결과){
+    db.collection('post').findOne({nick:요청.params.nick}, function(에러, 결과){
       var tutorid=결과.userid;
       응답.redirect('/userpage/'+tutorid);      
   })

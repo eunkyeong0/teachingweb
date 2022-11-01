@@ -71,10 +71,8 @@
                 
                 <p class="servetext2"><%=data.본문%></p>
 
-                
-                <!-- <img class="mathimg" src="https://ifh.cc/g/4g2qTX.png" alt="image"> -->
                 <img class="mathimg" src="<%=이미지주소.주소%>">
-                <!-- <img class="mathimg" src="/public/image/<%=data._id%>.png" alt="image"> -->
+           
               </div>
            
 
@@ -84,7 +82,7 @@
                   <button style="width: 15%;" onclick="location.href='/edit/<%=data._id%>'">수정</button>
                   <button style="width: 15%;" onclick="location.href='/delete/<%=data._id%>'">삭제</button>
                 </div>
-                <%} %>
+              <%} %>
 
            
             <div class="card"  id="card0" style="height: 30vh;"> 
@@ -129,14 +127,12 @@
                     </div>                              
             </div>
 
-            
-            <div class="card" id="card1" >
-                <div style="display: flex;">
-                <h2 class="servetext">수강 대기</h2> 
-                <h2 class="servetext" style="float: right;"><a style="color: black;" href="/userpage/username/<%=data.강의자%>"
-                    > 강의자:<%=data.강의자%></a></h2>                
-                </div>
+            <div class="card" id="cardtutor" >
+                <h2 class="servetext" ><a style="color: black;" href="/userpage/username/<%=data.강의자%>"> 강의자:<%=data.강의자%></a></h2>                
+            </div>
 
+            <div class="card" id="card1" >        
+                <h2 class="servetext">수강 대기</h2> 
 
                 <form action="/reservation" method="post" onsubmit="return cheakform2();">
 
@@ -169,18 +165,21 @@
             $(document).ready(function() { 
                 if('<%=data.글상태%>'=='강의대기'||'<%=data.글상태%>'=='강의중'){
                     document.getElementById('card0').style.display='none'; //예약 목록
+                    document.getElementById('cardtutor').style.display='block';//강의자
                     document.getElementById('card1').style.display='block'; //나도 참여하기,카운트다운
                     document.getElementById('card2').style.display='none';//수강하기 버튼
                     document.getElementById('card4').style.display='none';//리뷰
                 }
                 else if('<%=data.글상태%>'=='완료'){
-                    document.getElementById('card0').style.display='none';   
+                    document.getElementById('card0').style.display='none'; 
+                    document.getElementById('cardtutor').style.display='block';  
                     document.getElementById('card1').style.display='none';                
                     document.getElementById('card2').style.display='none';
                     document.getElementById('card4').style.display='block';
                 }
                 else{
                     document.getElementById('card0').style.display='block';
+                    document.getElementById('cardtutor').style.display='none';
                     document.getElementById('card1').style.display='none';
                     document.getElementById('card2').style.display='none'  ;    
                     document.getElementById('card4').style.display='none';              
@@ -519,6 +518,7 @@
                 clearInterval(timer);
                 document.getElementById(id).innerHTML = '0일 00시간 0분 0초';
                 document.getElementById('card1').style.display='none';
+                document.getElementById('cardtutor').style.display='block';
                 document.getElementById('card2').style.display='block';
 
                 return;
@@ -526,6 +526,7 @@
 
             else if(Math.floor(distance / _day)>100){//나중에
                 document.getElementById('card0').style.display='block';
+                document.getElementById('cardtutor').style.display='none';
                 document.getElementById('card1').style.display='none'
                 document.getElementById('card2').style.display='none' 
             }

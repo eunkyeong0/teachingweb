@@ -44,10 +44,12 @@
 <br>
 <br>
 <br>
-          <input type="hidden" id='img' name='이미지' value="">
+          <input type="hidden" id='img' name='이미지' value="<%=imgdata.주소%>">
+
           <label class="servetext" for="picture"><b>사진</b></label>
           <input style="display: block; " type="file" id="input-image">
           <script>
+          
             var src;
             function readImage(input) {
               // 인풋 태그에 파일이 있는 경우
