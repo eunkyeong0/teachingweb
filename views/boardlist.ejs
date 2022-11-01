@@ -50,10 +50,10 @@
             <li class="list-group-item" style="border: 1px solid;">
                 <h5 class="servetext2" style=" text-align: right; float: right; padding-right: 2%;">상태: <%= posts[i].글상태 %></h5>
               <h4 class="servetext1"> <a style="color: black; width: 50%; " href="/board/<%=posts[i]._id %>" >
-                제목 : <%= posts[i].제목 %></a> 
+                제목 : <%= posts[i].제목 %>  &nbsp  작성자 : <%= posts[i].작성자%></a> 
             </h4>
             
-              <p class="servetext1"> 작성자 : <%= posts[i].작성자%> </p>
+              <p class="servetext1"> 작성시간 : <%= posts[i].작성시간%> &nbsp 카테고리 : <%= posts[i].카테고리%> </p>
               
             </li>
             <% } %>
