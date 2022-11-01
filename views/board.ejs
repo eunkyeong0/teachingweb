@@ -306,21 +306,31 @@
                     <h2 class="servetext" id='review2' style="margin-left: 35%; display: none;">이미 리뷰를 남긴 강의입니다.</h2>   
                     
 
+
+
                         <% for (var j = 0; j < data.수강자.length; j++){ %>      
                             <% if(data.수강자[j]==사용자.nick){%>  
 
+                                var num=0;
+
                                 <% for(var i=0; i< 후기.length; i++){%>
                                     <%if(후기[i].작성자==사용자.nick){%>
-                                            <script>
-                                                 document.getElementById('review2').style.display='block';
-                                                 document.getElementById('review').style.display='none';
-                                            </script>   
-                                         <%break;%>
-                                                                                 
-                                    <%}%>
-                                    <%break;%> 
+                                        <script>
+                                             document.getElementById('review2').style.display='block';
+                                             document.getElementById('review').style.display='none';
+                                        </script>  
+                                    num=1;
+                                    <%break;%>
+                                                                                         
+                                    <%}
+                                    
                                 <%}%> 
 
+
+                                <%if(num==1){%>
+                                    <%break;%>
+                                <%}%>
+                                
                                 <form action="/rating" method="post">              
                                     <div id="full-stars">
                                         <div class="rating-group">
