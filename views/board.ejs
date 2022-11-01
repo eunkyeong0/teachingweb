@@ -307,11 +307,11 @@
                     
 
 
-
+                        <%var num=0;%>
                         <% for (var j = 0; j < data.수강자.length; j++){ %>     
-                                var num=0;                             
+                                           console.log('hi1');                  
                             <% if(후기!=null && data.수강자[j]==사용자.nick){%>  
-                                console.log(num);
+                                console.log('hi');
                                 <% for(var i=0; i< 후기.평가.length; i++){%>
                                     <%if(후기.평가[i].작성자==사용자.nick){%>
                                         <script>
@@ -319,7 +319,7 @@
                                              document.getElementById('review').style.display='none';
                                         </script>  
                                     num=1;
-                                    console.log(num);
+                                    console.log('hhi');
                                     <%break;%>
                                                                                          
                                     <%}%>
