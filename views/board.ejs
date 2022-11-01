@@ -131,7 +131,12 @@
 
             
             <div class="card" id="card1" >
-                <h2 class="servetext">수강 대기</h2>
+                <div style="display: flex;">
+                <h2 class="servetext">수강 대기</h2> 
+                <h2 class="servetext" style="float: right;"><a style="color: black;" href="/userpage/username/<%=data.강의자%>"
+                    > 강의자:<%=data.강의자%></a></h2>                
+                </div>
+
 
                 <form action="/reservation" method="post" onsubmit="return cheakform2();">
 
@@ -325,7 +330,6 @@
                                 </form>
                                 break;
                             <%}else{%>
-                            
                                 document.getElementById('review').innerHTML='신청하지 않은 강의입니다.';
                             <%}%>
                         <%}%>
@@ -374,8 +378,6 @@
                 document.getElementById('reply').style.display='none';
                 document.getElementById('replytf').value="댓글";
             }
-            //location.reload();         
-            //document.getElementById('reply').innerHTML=name+'선택'+num;      
                  
         });
     </script>
@@ -409,17 +411,8 @@
                     format: 'MM/DD/YYYY hh:mm A'
                      }
                 });
-                //  $("#datepicker").datepicker({
-                //     timepicker: true,
-                //     timeFormat: 'hh:mm AA',
-                //     minDate: "0"
-                // });               
-            </script>     
               
-            <!-- <input type="text" placeholder="월" name="month" required>
-            <input type="text" placeholder="일" name="day" required>
-            <input type="text" placeholder="시 (00시~23시)" name="clock1" required>
-            <input type="text" placeholder="분" name="clock2" required> -->
+            </script>     
             <input type="hidden" name="작성자" value="<%= 사용자.nick %>"> 
             <input type="hidden" name="글번호" value="<%= 글번호 %>">
 
@@ -458,7 +451,7 @@
         }
 
         function cheakform2(){//나도 참여하기
-            console.log('<%=data.수강자.length%>');
+         
             var cheak;
                 for (var i=0; i< '<%=data.수강자.length%>'; i++){
                     if('<%=data.수강자[i]%>'=='사용자.nick'){
@@ -483,7 +476,7 @@
           
           var cheakuser;
             for (i=0; i< '<%=data.수강자.length%>'; i++){
-                if(data.수강자[i]==사용자.nick){
+                if('<%=data.수강자[i]%>'=='<%=사용자.nick%>'){
                         cheakuser=true;   
                         break; 
                 }else {

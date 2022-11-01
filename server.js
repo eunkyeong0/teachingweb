@@ -172,6 +172,7 @@ app.get('/board/:id', function(요청, 응답){
 
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
+
     db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
     db.collection('comment').findOne({글번호:parseInt(요청.params.id)},function(err,result2){
       db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result3){
@@ -220,13 +221,19 @@ app.get('/delete/:id', function(요청, 응답){
 
 });
 
+app.get('/userpage/username/:nick',function(요청,응답){
+  MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
+    db=client.db('test');  
+    db.collection('post').findOne({nick:parseInt(요청.params.nick)}, function(에러, 결과){
+      var tutorid=결과.userid;
+      응답.redirect('/userpage/'+tutorid);      
+  })
+});
+});
+
 app.get('/userpage/:id', function(요청, 응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');  
-// db.collection('comment').findOne({"댓글.작성자":"테스트1"}).toArray(function(err,result3){ 
-//  console.log(result3);
-//  });
-
   db.collection('post').findOne({userid : 요청.params.id},function(err,result0){
     var name=result0.nick;  
     db.collection('posting').find().toArray(function(err,result){
