@@ -285,7 +285,7 @@
     const $chatbox = $('#chatbox'); 
     $chatbox.scrollTop($chatbox[0].scrollHeight);//스크롤 가장 아래로 내림
     });
-
+ 
     socket.on('exit',function(){
         console.log('이동');        
         location.replace('/board/<%=글번호%>');
