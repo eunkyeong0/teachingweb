@@ -45,16 +45,20 @@ app.get('/',function(req,res){
   res.sendFile(__dirname+'/index.html');
 });
 
-app.get('/main',function(req,res){
+app.get('/main/:page',function(req,res){
   
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   db=client.db('test');
 
-  db.collection('posting').find().toArray(function(err,result){
-    console.log(result);
-    res.render('boardlist.ejs',{posts:result,사용자: req.user});    
-  });
-
+  // db.collection('posting').find().toArray(function(err,result){
+  //   console.log(result);
+  //   res.render('boardlist.ejs',{posts:result,사용자: req.user});    
+  // });
+  var page=parseInt(req.params.page);
+    db.collection('posting').find().sort({_id:-1}).skip((page-1)*4).limit(4).toArray(function(err,result){
+      console.log(result);
+      res.render('boardlist.ejs',{posts:result,사용자: req.user}); 
+    })
   })
 });
 
@@ -144,7 +148,7 @@ app.post('/newuser',function(req,res){
 app.post('/login',passport.authenticate('local', {
   failureRedirect : '/fail'
 }),function(req,res){
-    res.redirect('/main')
+    res.redirect('/main/1'); //여기 바꿈
 });
 
 app.get('/fail',function(req,res){
