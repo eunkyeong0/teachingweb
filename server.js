@@ -28,7 +28,6 @@ const port = process.env.PORT || 8080 ;
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(http, {
   debug:true,
-
   path: '/peerjs'
 });
 app.use('/', peerServer);
@@ -429,10 +428,6 @@ app.post('/rating',function(req,응답){
 const login = new Array();
 
 io.on('connection', function(socket){
-  
-
-  console.log('연결되었어요');
-
   socket.on('joinroom', function(data0,peerid){
 
     if(login.length>=1){
@@ -440,46 +435,39 @@ io.on('connection', function(socket){
       for(var i=0;i<login.length;i++){
         if(login[i]['user']==usernick){
           m=1; 
-          console.log('같은거 찾기');
+          //이미 정보에 있을 때
           break;
         }
       } 
       if(m==0){
-        console.log('aa');
         login.push({ socket:socket.id
         ,  room : String(data0) 
         , user : usernick   
         })         
       }      
     }else{
-      console.log('ee');
       login.push({
         socket:socket.id
-      ,  room : String(data0)  // 접속한 채팅방의 이름
+      ,  room : String(data0)  // 접속한 강의실의 번호
       , user : usernick   // 접속자의 유저의 이름
       })      
-      console.log('ee');
     }
   
-
-    console.log(login);
     socket.join(String(data0)); 
     io.to(String(data0)).emit('count',login);
     socket.broadcast.to(String(data0)).emit('user-connected', peerid);
     
     socket.on('disconnecting',function(){    
       for(var i=0;i<login.length;i++){
-        console.log('확인1');
+       
         if(login[i]['socket']==socket.id){
           var name=login[i]['user'];
-          console.log('확인12');
           break;
         }
       } 
 
       for(var i=0;i<login.length;i++){      
          if(login[i]['user']==name){
-            console.log('확인2');
             var n=i;
             console.log(n); 
             break;
@@ -488,14 +476,13 @@ io.on('connection', function(socket){
 
       io.to(String(data0)).emit('bye',name);
       io.to(String(data0)).emit('count',login);
-      console.log('떠남');
+      //떠남
       console.log(login);
     });
 
     socket.on('user-send', function(data){
       io.to(String(data0)).emit('broadcast', data);
    }); 
-
 
    socket.on('done',function(){
       io.to(String(data0)).emit('exit');
@@ -504,12 +491,6 @@ io.on('connection', function(socket){
    socket.on('notifi',function(nick){
       io.to(String(data0)).emit('alarm',nick);
    })
-/*   socket.on('linesend', function(data) {
-    // linesend 이벤트로 넘어오는 메세지를 linesend_toclient 메세지로 보냄
-    socket.broadcast.emit('draw_toclient', data);
-    //socket.to(String(data0)).emit=('draw_toclient', data);
-    });  */
-
   });
 });
 

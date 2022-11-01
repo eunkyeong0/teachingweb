@@ -11,16 +11,13 @@
 	<link rel="stylesheet" href="\public\canvas.css">
     <link rel="stylesheet" href="\public\comments.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-<style>
-
-</style>
+  
     <title>강의실</title>
 </head>
 <body>
     <script  src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>   
     <script  src="/socket.io/socket.io.js" >  </script>
-   
+   <!-- peerjs socket io 불러오기 -->
   
     <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
     <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -32,41 +29,41 @@
     <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
     <br>
     <br>
-    <div id="cv" style="margin-top: 10px;">
+    <div id="cv" style="margin-top: 10px;"><!-- 강의자가 판서할 캔버스와 그리기 도구--> 
         <div class="container">
             <section class="tools-board" >
-              <div class="row">
+              <div class="row"><!-- 도형 옵션-->
                 <label class="title">Shapes</label>
                 <ul class="options">
                   <li class="option tool" id="rectangle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16.301" height="16.301" viewBox="0 0 16.301 16.301">
                         <path id="square-regular" d="M13.972,32A2.33,2.33,0,0,1,16.3,34.329V45.972A2.331,2.331,0,0,1,13.972,48.3H2.329A2.33,2.33,0,0,1,0,45.972V34.329A2.329,2.329,0,0,1,2.329,32Zm0,1.747H2.329a.582.582,0,0,0-.582.582V45.972a.583.583,0,0,0,.582.582H13.972a.584.584,0,0,0,.582-.582V34.329A.583.583,0,0,0,13.972,33.747Z" transform="translate(0 -32)" fill="#5a6168"/>
-                      </svg>
+                      </svg><!-- 사각형 아이콘 --> 
                        
                     <span></span>
                   </li>
                   <li class="option tool" id="circle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16.301" height="16.301" viewBox="0 0 16.301 16.301">
                         <path id="circle-regular" d="M16.3,8.15A8.15,8.15,0,1,1,8.15,0,8.15,8.15,0,0,1,16.3,8.15ZM8.15,1.528A6.622,6.622,0,1,0,14.773,8.15,6.621,6.621,0,0,0,8.15,1.528Z" fill="#5a6168"/>
-                      </svg> 
+                      </svg> <!-- 원 아이콘 --> 
                       
                     <span></span>
                   </li>
                   <li class="option tool" id="triangle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17.874" height="15.711" viewBox="0 0 17.874 15.711">
                         <path id="triangle" d="M19.75,17.574,11.71,3.656a.893.893,0,0,0-1.554,0L2.116,17.574a.893.893,0,0,0,.777,1.34h16.08a.893.893,0,0,0,.777-1.34ZM4.438,17.127,10.933,5.889l6.495,11.238Z" transform="translate(-1.996 -3.203)" fill="#5a6168"/>
-                      </svg>
+                      </svg><!-- 삼각형 아이콘 --> 
                         
                     <span></span>
                   </li>
                   <li class="option">
-                    <input type="checkbox" id="fill-color">
+                    <input type="checkbox" id="fill-color"><!-- 색 채우기 --> 
                     <label for="fill-color" >Fill color</label>
                   </li>
                 </ul>
               </div>
               <div class="row">
-                <label class="title">Options</label>
+                <label class="title">Options</label> <!-- 그리기,지우기 선택 옵션-->
                 <ul class="options">
                   <li class="option active tool" id="brush">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14.445" height="14.462" viewBox="0 0 14.445 14.462">
@@ -86,7 +83,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="row colors">
+              <div class="row colors"><!-- 색 옵션-->
                 <label class="title">Colors</label>
                 <ul class="options">
                   <li class="option"></li>
@@ -98,14 +95,14 @@
                   </li>
                 </ul>
               </div>
-              <div class="row buttons">
+              <div class="row buttons"><!-- 모두 지우기 -->
                 <button class="clear-canvas">Clear</button>
              
               </div>
             </section>
             <section class="drawing-board">
               <canvas id='a' width="1150px" height="550vh"></canvas>
-              <script src="\public\drawing.js"></script>
+              <script src="\public\drawing.js"></script><!-- 캔버스 그리기 옵션들 실행 js -->
             </section>
 
             <div class="servetext2"style="float: right; margin-top:2%; margin-right:10px">
@@ -117,7 +114,7 @@
                 <hr size="5" width="150px" noshade>
                 <div >참여자 리스트</div>
                 <hr size="5" width="150px" noshade>    
-                <div id="list"></div>       
+                <div id="list"></div>  <!-- 웹 소켓에서 불러온 접속자 목록  -->     
                </div>
           </div>
 
@@ -126,12 +123,14 @@
 
     
 
-    <video id="video" style="margin-bottom: 1%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>         
+    <video id="video" style="margin-bottom: 1%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
+    <!-- 캡퍼스 캡처 스트림 저장-->         
     <video id="peersvideo" style="margin-bottom: 1%; border: 1px solid black; margin-left: 16px;" width="1150px" height="550vh" autoplay></video> 
+    <!-- 강의자의 판서를 수강자 화면에 보여줄 비디오 -->
     <video id='sharevideo' style="margin-top: 2%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
+    <!-- 화면 공유-->
 
-    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px">
-   
+    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px"> <!-- 수강자 화면에 보여줄 목록 위치-->
     <div id="count1" >카운트</div>
     <hr size="5" width="150px" noshade>
     <div>강의자: <%=강의자%></div>
@@ -142,147 +141,182 @@
     <div id="list1"></div>       
    </div>
 
-
+<!-- 채팅창 -->
     <div id="chatbox" style=" float:left; width:50%; height: 10vh; overflow: auto; white-space: nowrap; border: 1.2px solid black; margin-left: 16px;">
-        <div id="chat"></div>  
-             
+        <div id="chat"></div>       
     </div>   
 
     <input type="text" id="msg" style="width: 50%; padding: 5px; margin-left: 16px; "required>
     <button class="btn2" id="send" style="width: 10%; ">채팅하기</button>       
 
+<!--손들기, 문제사진 보기 아이콘-->    
     <i class="fa fa-file-image-o" data-icon="img" style="float:right; margin-right: 3%;font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>
     <div id="hand" style="float:right; margin-right: 3%;">
     <i class="fa fa-hand-paper-o" data-icon="noti" style="font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>    
     </div>
     
-    
+ 
+<!--학습종료 버튼(강의자에게만 보임)-->      
     <form action="/done" method="post">
         <input type="hidden" id='number' name='postnum' value="<%=글번호%>">
-        <button type="submit" id="exit" onclick="javascript:exitmg()" style=" float:left; background-color: #4657d3;color: white;padding: 5px 10px;margin: 8px 0;border: none;cursor: pointer;width: 100%;" >수업 종료하기</button>
-        
+        <button type="submit" id="exitbtn" onclick="javascript:exitmg()" style=" float:left; background-color: #4657d3;color: white;padding: 5px 10px;margin: 8px 0;border: none;cursor: pointer;width: 100%;" >수업 종료하기</button>      
     </form>
 
+<!--손들기 알림창-->    
     <div class="notification-container" id="notification-container">
         
     </div>
-     
+
+<!--접속한 사람들 음성저장-->       
     <div id="myStreamv">
        
-        
     </div>
-    
-    <div id="errorMsg"></div>
+
+<!--문제사진 모달-->    
+    <div id="tu01" class="modal" >
+        <form class="modal-content animate" action="123" method="post">
+           
+          <div class="container" style="background-color:#f1f1f1">
+            
+            <img class="modal-target" alt="Img 1" src="<%=이미지주소.주소%>" />
+          </div>
+      
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('tu01').style.display='none'" class="cancelbtn">Cancel</button>
+          </div>               
+        </form>
+      </div> 
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('tu01');
+            
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+
+        const notification = document.getElementById('notification-container');
+        
+        function showNotification(){
+            notification.classList.add('show')
+            setTimeout(() => {
+                notification.classList.remove('show')
+                $("#notification-container").empty(); 
+            }, 1500)   
+        }        
+    </script>    
 
     <script>
         
-        var socket=io();   
+        var socket=io();//socket io   
 
-        const pvideo = document.getElementById("peersvideo");
-        const myvideo=document.getElementById('video');
-        //const canv = document.getElementById("a");
+        const pvideo = document.getElementById("peersvideo");//수강자 화면에 보여줄 강의자 캔버스 캡쳐영상
+        const myvideo=document.getElementById('video');//캔버스 캡쳐 스트림 저장
       
-        const muteBtn = document.getElementById("mute");
-        const sharevideo = document.getElementById('sharevideo');
+        const muteBtn = document.getElementById("mute");//마이크 온오프
+        const startButton = document.getElementById('startButton');//화면공유 버튼
+        const sharevideo = document.getElementById('sharevideo');//화면 공유
         
 
-        var currentPeer=new Array();
+        var currentPeer=new Array();//peer 접속자 주소 저장할 배열
         var screenSharing = false;
 
-        let myStream;
-        let myVideo;
-        let sendvideo;
-        let share;
-        let voice;
+        let myStream;//사용자 오디오
+        let myVideo;//캔버스 캡쳐 스트림 저장
+        let sendvideo;//참여자들에게 보낼 비디오,오디오 스트림
+        let share;//화면공유 비디오 스트림 저장
+        let voice;//사용자 오디오트랙 추출
+
         let muted=true;
-        var id;
+        var id;//peer id
 
+        muteBtn.addEventListener("click", handleMuteClick); 
 
-    muteBtn.addEventListener("click", handleMuteClick);
-    const startButton = document.getElementById('startButton');
+    startMedia();//접속시 강의자와 수강자가 화면구성 hidden으로 설정
 
-    startMedia();
-
-    const myPeer=new Peer(undefined,{
+    const myPeer=new Peer(undefined,{ //peer 연결 설정 새 피어를 만들
         secure:true,
         host:'teaching1901131.herokuapp.com',
         port:'443',
         path: "peerjs"
-        
     });
-    myPeer.on('open',function(id){
+
+    myPeer.on('open',function(id){//peer 접속
         socket.emit('joinroom', '<%=글번호%>',id); 
         socket.emit('user-send','<%=사용자.nick%>님께서 접속하였습니다.');
         console.log('peer');
     }); 
   
-    socket.on('count',function(data){
+    socket.on('count',function(data){//소캣에서 온 배열로 접속자 카운트, 목록 설정
         var list=new Array();
         for(var i=0;i<data.length; i++){
-            if('<%=글번호%>'==data[i]['room']){
+            if('<%=글번호%>'==data[i]['room']){//소캣에 저장되있는 방 정보 data 배열에서 접속한 방의 정보를 list에 저장
                 list.push({ socket:data[i]['socket']
                 ,  room : String('<%=글번호%>') 
                 , user : data[i]['user']  
                 })  
             }}
-        console.log(list);
-       document.getElementById('count').innerHTML='현재 참여자 수:'+list.length+'명';
+        
+       document.getElementById('count').innerHTML='현재 참여자 수:'+list.length+'명'; //총 참여자 수
        document.getElementById('count1').innerHTML='현재 참여자 수:'+list.length+'명';
       
        $("#list *").remove(); 
        $("#list1 *").remove(); 
+
         for(var i=0;i<list.length;i++){
-            $('#list').append('<div>' +list[i]['user']+'</div>');
+            $('#list').append('<div>' +list[i]['user']+'</div>'); //참여자 닉네임 목록
             $('#list1').append('<div>' +list[i]['user']+'</div>');
        }   
     });
 
-    socket.on('bye',function(data){
+    socket.on('bye',function(data){//방에서 나갈 시 채팅창에 메시지
         $('#chat').append('<div>' +data+'님께서 떠나셨습니다.'+'</div>');
     });      
 
-
-    $('#send').click(function(){
+    $('#send').click(function(){//채팅 보내기 버튼 클릭
     socket.emit('user-send','<%=사용자.nick%>님'+' : '+ $('#msg').val());
     });
 
-    socket.on('broadcast', function(data) {
-    $('#chat').append('<div>' +data + '</div>');
+    socket.on('broadcast', function(data) {//채팅창에 채팅 보낸 내용 추가
+    $('#chat').append('<div>' +data + '</div>');//채팅창에 추가
+    const $chatbox = $('#chatbox'); 
+    $chatbox.scrollTop($chatbox[0].scrollHeight);//스크롤 가장 아래로 내림
     });
 
     socket.on('exit',function(){
+        console.log('이동');        
         location.replace('/board/<%=글번호%>');
     });
 
     socket.on('alarm',function(data){
-
         $("#notification-container").append('<p>'+ '🖐 '+data+'님이 손을 들었습니다.'+'</p>'); 
+        //손들기 알람
         showNotification();
     });
 
     $('#msg').keypress(function(event){
-        if ( event.which == 13 ) {
+        if ( event.which == 13 ) {//채팅내용 입력 후 엔터 시 채팅 버튼 클릭과 같은 효과
         $('#send').click();
         return false;
     }
     });
 
     $('i').click(function(e){
-        if(e.target.dataset.icon=='img'){
-            document.getElementById('tu01').style.display='block'  
+        if(e.target.dataset.icon=='img'){//문제 이미지 아이콘 클릭
+            document.getElementById('tu01').style.display='block'  //모달 보이기
         }
-        else if(e.target.dataset.icon=='noti'){
-            socket.emit('notifi','<%=사용자.nick%>');
-            
+        else if(e.target.dataset.icon=='noti'){//손들기 아이콘 모달 클릭
+            socket.emit('notifi','<%=사용자.nick%>');           
         }                             
         });
 
-    const $chatbox = $('#chatbox'); 
-    $chatbox.scrollTop($chatbox[0].scrollHeight);
 
-    startButton.addEventListener('click', () => {
-        sharevideo.hidden=false;
-        cv.hidden=true;
+    startButton.addEventListener('click', () => { //화면공유 클릭 시
+        sharevideo.hidden=false; //화면 공유 보여줄 비디오 화면에 보임
+        cv.hidden=true;//캔버스 숨기기
         navigator.mediaDevices.getDisplayMedia({video: true})
             .then(handleSuccess, handleError);
         });
@@ -294,64 +328,48 @@
         errorMsg('getDisplayMedia is not supported');
         }
 
-    async function getMedia() {
-    myvideo.muted = true;//뮤트
+    async function getMedia() {//사용자 오디오 가져오기/ peer, socket io로 미디어 보내기
+    myvideo.muted = true;
         try {
             myStream = await navigator.mediaDevices.getUserMedia(
             {
                 video:false,
-                audio:true,
+                audio:true,//오디오만 가져옴
             })
-
-            console.log(myStream);
-                  
-            voice=myStream.getAudioTracks();
+                 
+            voice=myStream.getAudioTracks();//오디오 트랙 추출
             
         } catch (e) {
             console.log(e);
         }    
         
         const canvas = document.querySelector('canvas');
-       // canvas.getContext('2d', {willReadFrequently: true});
-
-        const mediaStream = canvas.captureStream();
+        const mediaStream = canvas.captureStream();//캔버스 캡쳐 스트림
         
-        
-        //const mediaStream = canv.captureStream();
-        
-
         myVideo=mediaStream;     
-        myvideo.srcObject = myVideo;
-        console.log(myVideo);
-        //const mStream=myvideo.captureStream(); 
+        myvideo.srcObject = myVideo; //myvideo 비디오에 캔버스 스트림
 
-        sendvideo=myvideo.srcObject;
-        sendvideo.addTrack(voice[0]);
+        sendvideo=myvideo.srcObject; //캔버스 스트림 영상 넣기
+        sendvideo.addTrack(voice[0]); //추출한 오디오 넣기
         
-        console.log(sendvideo.getVideoTracks());
-        //sharevideo.addTrack(voice[0]);//새로 추가함 0830
 
-        myPeer.on('call',function(call){
+        myPeer.on('call',function(call){//접속자들에게 응답
             console.log('answer');   
                     
             call.answer(sendvideo); 
             call.on('stream',function(userVideoStream){   
-                const sharevoice=document.createElement('audio');
-                addaudio(sharevoice,userVideoStream);
-
-                console.log('비디오 값 넣기');
+                const sharevoice=document.createElement('audio');//오디오 태그 생성
+                addaudio(sharevoice,userVideoStream);//응답자들의 오디오 저장
         });           
             
-            //currentPeer = call;
-            currentPeer.push(call);
+            currentPeer.push(call);//접속되어 있는 peerid을 배열에 저장
             console.log(currentPeer);
         }); 
 
-        socket.on('user-connected',function(userid){
+
+        socket.on('user-connected',function(userid){//접속자들 peer id 연결
             console.log('유저연결: '+userid);
-            
-            setTimeout(connectNewUser,1000,userid,sendvideo);
-                
+            setTimeout(connectNewUser,1000,userid,sendvideo); //접속자들에게 영상,오디오 보내기
         });   
        
     }
@@ -365,20 +383,17 @@
               pvideo.srcObject=userVideoStream;  
               myvideo.srcObject=userVideoStream;
 
-              const sharevoice2=document.createElement('audio');
-                addaudio(sharevoice2,userVideoStream);
-             
-            //console.log(myvoice.srcObject);             
-            console.log('비디오 값 넣기');
+              const sharevoice2=document.createElement('audio'); //오디오 태그 생성
+              addaudio(sharevoice2,userVideoStream); //참여자 오디오 저장     
+            
         });
        
-        //currentPeer = call;
-        currentPeer.push(call);
+        currentPeer.push(call);//peerid 저장
         console.log(currentPeer);
     }
 
 
-    function handleMuteClick() {  
+    function handleMuteClick() {  //마이크 켜기 끄기 버튼
 
         console.log(myStream.getAudioTracks());
         
@@ -390,34 +405,28 @@
         }
         else {
              
-            muteBtn.innerText = "마이크 키기";
+            muteBtn.innerText = "마이크 켜기";
             muted = false;               
         }
     }
 
-    function handleSuccess(stream) {
+    function handleSuccess(stream) {//화면 공유
         startButton.disabled = true;
         sharevideo.srcObject = stream;
         share=stream;
     
-        let videoTrack = share.getVideoTracks()[0];
-   
-        console.log(currentPeer);
+        let videoTrack = share.getVideoTracks()[0];//화면공유 비디오트랙
 
-        currentPeer.forEach((Peer)=>{
+        currentPeer.forEach((Peer)=>{//peer주소마다 sender를 통해 수강자 화면에 sharevideo에 비디오트랙 추가
             let sender = Peer.peerConnection.getSenders().find(function (s) {
                 return s.track.kind === videoTrack.kind;
             })  
             sender.replaceTrack(videoTrack);          
             console.log('바꿈');  
         });
-           
             screenSharing = true;
-        
 
-        // demonstrates how to detect that the user has stopped
-        // sharing the screen via the browser UI.
-        stream.getVideoTracks()[0].addEventListener('ended', () => {
+        stream.getVideoTracks()[0].addEventListener('ended', () => {//화면공유 중지
             errorMsg('The user has ended sharing the screen');
             startButton.disabled = false;
             sharevideo.hidden=true;
@@ -425,35 +434,27 @@
 
             if (!screenSharing) return;
 
-            let videoTrack = sendvideo.getVideoTracks()[0];
+            let videoTrack = sendvideo.getVideoTracks()[0];//강의자 캔버스 캡쳐 비디오
 
             currentPeer.forEach((Peer)=>{
             let sender = Peer.peerConnection.getSenders().find(function (s) {
                 return s.track.kind === videoTrack.kind;
             })  
-            sender.replaceTrack(videoTrack);  
-            
+            sender.replaceTrack(videoTrack);   
             });  
             screenSharing = false;
-
         });
-             
         }
 
         function handleError(error) {
         errorMsg(`getDisplayMedia error: ${error.name}`, error);
         }
-
         function errorMsg(msg, error) {
         console.log(msg);
-        if (typeof error !== 'undefined') {
-            console.error(error);
-            console.log(error);
-            
-        }
+        if (typeof error !== 'undefined') {console.error(error);}
         }
 
-    function startMedia(){
+    function startMedia(){//접속시 사용자가 강의자인지 수강자인지 구분하여 화면 세팅
     if('<%=사용자.nick%>'=='<%=강의자%>'){
         sharevideo.hidden=true;
         myvideo.hidden=true;
@@ -466,13 +467,13 @@
         sharevideo.hidden=true;
         startButton.hidden=true;
         cv.hidden=true;
-        exit.hidden=true;
+        exitbtn.hidden=true;
         myvideo.hidden=true;
     }
      getMedia();
     }
 
-    function addaudio(audio,stream){
+    function addaudio(audio,stream){//참여자들 오디오 추가
         audio.srcObject=stream;
         console.log(audio.srcObject);
         audio.addEventListener('loadedmetadata', () => {
@@ -485,59 +486,6 @@
         socket.emit('user-send','수업이 종료되었습니다.');
         socket.emit('done');
     }
-    </script>
-
-    <div id="tu01" class="modal" >
-        <form class="modal-content animate" action="123" method="post">
-           
-          <div class="container" style="background-color:#f1f1f1">
-            
-            <img class="modal-target" alt="Img 1" src="<%=이미지주소.주소%>" />
-          </div>
-      
-          <div class="container" style="background-color:#f1f1f1">
-            <button type="button" onclick="document.getElementById('tu01').style.display='none'" class="cancelbtn">Cancel</button>
-          </div>               
-           
-
-        </form>
-      </div> 
-
-      
-      <script>
-        // Get the modal
-        var modal = document.getElementById('tu01');
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-        </script>
-    <script>
-
-        const notification = document.getElementById('notification-container');
-      
-        function showNotification(){
-            notification.classList.add('show')
-            setTimeout(() => {
-                notification.classList.remove('show')
-                $("#notification-container").empty(); 
-            }, 1500)   
-                     
-        }
-
-    </script>
-
-    <script>
-
-
-
-    </script>
-
-    <script>
-
     </script>
 </body>
 </html>
