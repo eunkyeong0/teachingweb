@@ -425,7 +425,7 @@ app.post('/rating',function(req,응답){
         var num2=parseInt(result0.총평점수)+1;
         db.collection('post').updateOne({nick:teacher},{$set:{총평점수:num2}},function(err,result){
           db.collection('post').updateOne({nick:teacher},{$set:{총평점:Math.round((num+parseInt(req.body.rating3))/num2)}},function(err,result){
-            //응답.redirect('/userpage/'+req.body.user);??
+            응답.redirect('/board/'+parseInt(req.body.title));
          });
         });
 
