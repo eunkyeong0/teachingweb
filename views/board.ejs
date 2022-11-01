@@ -312,7 +312,8 @@
                             <% if(후기!=null && data.수강자[j]==사용자.nick){%>  
 
                                 var num=0;
-
+                                console.log('들어옴');
+                                console.log(num);
                                 <% for(var i=0; i< 후기.평가.length; i++){%>
                                     <%if(후기.평가[i].작성자==사용자.nick){%>
                                         <script>
