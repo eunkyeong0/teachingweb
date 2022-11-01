@@ -176,6 +176,7 @@
                     document.getElementById('card1').style.display='none';                
                     document.getElementById('card2').style.display='none';
                     document.getElementById('card4').style.display='block';
+                    console.log('열기');
                 }
                 else{
                     document.getElementById('card0').style.display='block';
@@ -186,7 +187,6 @@
                 }
                  $('#recomment').hide(); 
                  $('#reply').hide();
-                 console.log('<%=data.수강자.length%>');
             });
             </script>
 
@@ -327,6 +327,9 @@
                                     <input type="hidden"  name='title' value="<%=data._id%>">
                                     <button type="submit" >후기 남기기</button>
                                 </form>
+                                <script>
+                                    document.getElementById('review').style.display='none';
+                                </script>                                
                                 <%break;%>
                             <%}else{%>
                                 <script>
@@ -523,10 +526,14 @@
                 document.getElementById('cardtutor').style.display='block';
                 document.getElementById('card2').style.display='block';
 
+                if('<%=data.글상태%>'=='완료'){
+                    //document.getElementById('card2').style.display='none';
+                    console.log('닫기');
+                }
                 return;
             }
 
-            else if(Math.floor(distance / _day)>100){//나중에
+            else if(Math.floor(distance / _day)>100){
                 document.getElementById('card0').style.display='block';
                 document.getElementById('cardtutor').style.display='none';
                 document.getElementById('card1').style.display='none'
