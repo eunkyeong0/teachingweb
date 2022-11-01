@@ -187,7 +187,7 @@
                 }
                  $('#recomment').hide(); 
                  $('#reply').hide();
-                 console.log('<%=후기.length%>');
+               
             });
             </script>
 
@@ -314,7 +314,7 @@
                                 var num=0;
 
                                 <% for(var i=0; i< 후기.length; i++){%>
-                                    <%if(후기[i].작성자==사용자.nick){%>
+                                    <%if(후기!=null && 후기[i].작성자==사용자.nick){%>
                                         <script>
                                              document.getElementById('review2').style.display='block';
                                              document.getElementById('review').style.display='none';
