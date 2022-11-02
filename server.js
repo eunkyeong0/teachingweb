@@ -412,7 +412,8 @@ app.post('/done',function(요청,응답){
   console.log('접속');
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
-      db.collection('posting').updateOne({_id:parseInt(요청.body.postnum)},{$set:{글상태:'완료'}},function(err,result){      
+    console.log(요청.body.alllist);
+      db.collection('posting').updateOne({_id:parseInt(요청.body.postnum)},{$set:{글상태:'완료',최종:요청.body.alllist}},function(err,result){      
 //        db.collection('rating').insertOne({글번호:parseInt(요청.body.postnum),평가:[]},function(요청,응답){
           응답.redirect('/board/'+요청.body.postnum);
       
@@ -502,10 +503,6 @@ io.on('connection', function(socket){
     socket.on('user-send', function(data){
       io.to(String(data0)).emit('broadcast', data);
    }); 
-
-   socket.on('done',function(){
-      io.to(String(data0)).emit('exit');
-   })
 
    socket.on('notifi',function(nick){
       io.to(String(data0)).emit('alarm',nick);
