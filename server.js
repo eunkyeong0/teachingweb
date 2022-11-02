@@ -92,7 +92,7 @@ app.post('/write',function(req,res){
    });
     });
   }); 
-  res.redirect('/main') 
+  res.redirect('/main/1') 
 });
 
 app.post('/comment',function(req,res){
@@ -228,7 +228,7 @@ app.get('/delete/:id', function(요청, 응답){
         })        
       })
   })
-  응답.redirect('/main');
+  응답.redirect('/main/1');
 });
 
 });
@@ -398,7 +398,7 @@ app.get('/room/:id',function(요청,응답){
           console.log(result.강의자);
 
           db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result1){ 
-            응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자,이미지주소:result1.주소});  
+            응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자,이미지주소:result1});  
   
        });
         
