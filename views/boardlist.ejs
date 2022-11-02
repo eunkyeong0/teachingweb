@@ -62,22 +62,25 @@
 
         <div style='margin-left:10%;'>
           <div class="pagination">
-            <a id="back">&laquo;</a>
             <script>
-              
               var total=parseInt('<%=총페이지%>');
               var num=parseInt('<%=현재페이지%>');
-        
+              var num1=num-1
+              if(num1==0){num1=1;}
+              var num2=num+1
+              if(num2==total+1){num2=total;}  
+            </script>            
+            <a id="back" href="/main/${num1}">&laquo;</a>
+            <script>    
               for(var i=1;i<=total;i++){
-                var str=toString(<a href='/main/${i}' id='${i}'>${i}</a>);
+                var str=toString(<a href='/main/{i}' id='${i}'>${i}</a>);
                 $('#pagination').append(str);
-              
               }
 
             document.getElementById('<%=현재페이지%>').style.backgroundColor = "#4CAF50"; 
             document.getElementById('<%=현재페이지%>').style.color=white;
             </script>
-            <a id="next">&raquo;</a>
+            <a  href="/main/"+num2 id="next">&raquo;</a>
           </div>
         </div>
         
@@ -87,18 +90,7 @@
 
 </body>
 <script>
-        $('.back').click(function(){
-          var num1=num-1
-          if(num1==0){num1=1;}
-            location.href("/main/"+num1);   
-      
-        });  
 
-        $('.next').click(function(){
-          var num2=num+1
-          if(num2==total+1){num2=total;}
-            location.href("/main/"+num2);   
-        }); 
 </script>
 
 <script>
