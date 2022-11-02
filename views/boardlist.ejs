@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> 
+  
     <link rel="stylesheet" href="\public\reset.css">
     <link rel="stylesheet" href="\public\indexstyle.css"> 
     <link rel="stylesheet" href="\public\mainstyle.css">  
@@ -21,7 +21,7 @@
 <body>
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js" integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <div class="contents">
     <div class="servecon">
@@ -60,53 +60,42 @@
             <% } %>
         </ul>
 
-        <div style='margin-left:40%;'>
-          <ul id="pagination" 
-              class="pagination-sm"></ul>  
+        <div style='margin-left:10%;'>
+          <div class="pagination">
+            <a id="back">&laquo;</a>
+            <script>
+              
+              var total=parseInt('<%=총페이지%>');
+              var num=parseInt('<%=현재페이지%>');
+        
+              for(var i=1;i<=total;i++){
+                <a href='/main/${i}' id='${i}'>${i}</a>
+              }
+
+            document.getElementById('<%=현재페이지%>').style.backgroundColor = "#4CAF50"; 
+            document.getElementById('<%=현재페이지%>').style.color=white;
+            </script>
+            <a id="next">&raquo;</a>
+          </div>
         </div>
-        <!--목록 버튼-->
+        
     </div>
 
 </div>
 
 </body>
-
-
-
-
-
-
 <script>
-  console.log('<%=총페이지%>')
-  var total;
-  var visible;
-  var num;
-  var num0=parseInt('<%=현재페이지%>');
-  if(parseInt('<%=총페이지%>') < 6){
-    total=parseInt('<%=총페이지%>');
-    visible=parseInt('<%=총페이지%>');
-  }
-  else{
-    total=parseInt('<%=총페이지%>');
-    visible=5;
-  }
+        $('.back').click(function(){
+          var num1=num-1
+          if(num1==0){num1=1;}
+            location.hlaf("/main/"+num1);   
+        });  
 
-$('#pagination').twbsPagination({
-  
-        totalPages: total,
-        visiblePages: visible,
-        active:num0,
-        next: 'Next',
-        prev: 'Prev',
-      
-        onPageClick: function (event, page) {
-            num=page;
-           // location.href=('/main/'+page);
-        }
-    });
-$('#pagination-sm .page-link').click(function(){
-  location.href=('/main/'+num);
-})
+        $('.next').click(function(){
+          var num2=num+1
+          if(num2==total+1){num2=total;}
+            location.hlaf("/main/"+num2);   
+        }); 
 </script>
 
 <script>

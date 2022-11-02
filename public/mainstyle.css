@@ -79,16 +79,17 @@
     transform: translateY(50px);
   } 
 
-  #pagination{
-    display: inline-block;
-    
-    
-  }
-  #pagination li{
-    
+  .pagination {
     display: inline-block;
   }
-  .pagination-sm .page-link {
-      padding: 0.25rem 0.5rem;
-      font-size: 1.275rem;
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
   }
+  
+
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;}
