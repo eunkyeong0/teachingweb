@@ -21,7 +21,7 @@
 <body>
   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="jquery.twbsPagination.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js" integrity="sha512-frFP3ZxLshB4CErXkPVEXnd5ingvYYtYhE5qllGdZmcOlRKNEPbufyupfdSTNmoF5ICaQNO6SenXzOZvoGkiIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div class="contents">
     <div class="servecon">
@@ -86,6 +86,7 @@
     var total=parseInt('<%=총페이지%>');
     var visible=5;
   }
+
 $('#pagination').twbsPagination({
   
         totalPages: 3,
@@ -94,10 +95,12 @@ $('#pagination').twbsPagination({
         prev: 'Prev',
         onPageClick: function (event, page) {
             
-            location.href=('/main/'+page);
+           // location.href=('/main/'+page);
         }
     });
-
+$('#pagination').click(function(){
+  location.href=('/main/'+page);
+})
 </script>
 
 <script>
