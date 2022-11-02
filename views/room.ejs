@@ -211,7 +211,7 @@
     </script>    
 
     <script>
-        
+        io.connect(url, { transports: ['websocket'] });
         var socket=io();//socket io   
 
         const pvideo = document.getElementById("peersvideo");//수강자 화면에 보여줄 강의자 캔버스 캡쳐영상
