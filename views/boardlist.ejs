@@ -78,28 +78,31 @@
 
 <script>
   console.log('<%=총페이지%>')
+  var total;
+  var visible;
+  var num;
   if(parseInt('<%=총페이지%>') < 6){
-    var total=parseInt('<%=총페이지%>');
-    var visible=parseInt('<%=총페이지%>');
+    total=parseInt('<%=총페이지%>');
+    visible=parseInt('<%=총페이지%>');
   }
   else{
-    var total=parseInt('<%=총페이지%>');
-    var visible=5;
+    total=parseInt('<%=총페이지%>');
+    visible=5;
   }
 
 $('#pagination').twbsPagination({
   
-        totalPages: 3,
-        visiblePages: 3,
+        totalPages: total,
+        visiblePages: visible,
         next: 'Next',
         prev: 'Prev',
         onPageClick: function (event, page) {
-            
+            num=page;
            // location.href=('/main/'+page);
         }
     });
 $('#pagination').click(function(){
-  location.href=('/main/'+page);
+  location.href=('/main/'+num);
 })
 </script>
 
