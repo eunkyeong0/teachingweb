@@ -69,7 +69,8 @@
               var num=parseInt('<%=현재페이지%>');
         
               for(var i=1;i<=total;i++){
-                $('#pagination').append(<a href='/main/${i}' id='${i}'>${i}</a>);
+                var str=toString(<a href='/main/${i}' id='${i}'>${i}</a>);
+                $('#pagination').append(str);
               
               }
 
@@ -89,13 +90,14 @@
         $('.back').click(function(){
           var num1=num-1
           if(num1==0){num1=1;}
-            location.hlaf("/main/"+num1);   
+            location.href("/main/"+num1);   
+      
         });  
 
         $('.next').click(function(){
           var num2=num+1
           if(num2==total+1){num2=total;}
-            location.hlaf("/main/"+num2);   
+            location.href("/main/"+num2);   
         }); 
 </script>
 
