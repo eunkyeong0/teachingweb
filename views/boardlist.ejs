@@ -95,15 +95,16 @@ $('#pagination').twbsPagination({
   
         totalPages: total,
         visiblePages: visible,
+        active:num0,
         next: 'Next',
         prev: 'Prev',
-        page : num0,
+      
         onPageClick: function (event, page) {
             num=page;
            // location.href=('/main/'+page);
         }
     });
-$('pagination-sm .page-link').click(function(){
+$('.page-item').click(function(){
   location.href=('/main/'+num);
 })
 </script>
