@@ -69,7 +69,8 @@
               var num=parseInt('<%=현재페이지%>');
         
               for(var i=1;i<=total;i++){
-                <a href='/main/${i}' id='${i}'>${i}</a>
+                $('#pagination').append(<a href='/main/${i}' id='${i}'>${i}</a>);
+              
               }
 
             document.getElementById('<%=현재페이지%>').style.backgroundColor = "#4CAF50"; 
