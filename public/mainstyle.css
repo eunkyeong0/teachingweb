@@ -82,10 +82,10 @@
   #pagination{
     display: inline-block;
     
-    font-size:5rem;
+    
   }
   #pagination li{
-    font-size:5rem;
+    
     display: inline-block;
   }
   .pagination-sm .page-link {
