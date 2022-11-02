@@ -73,14 +73,15 @@
             <a id="back" href="/main/${num1}">&laquo;</a>
             <script>    
               for(var i=1;i<=total;i++){
-                var str=toString(<a href='/main/{i}' id='${i}'>${i}</a>);
-                $('#pagination').append(str);
+                var str=toString(<a href="/main/${i}" id='${i}'>${i}</a>);
+                $('#pagination').append('<a href="/main/${i}" id=${i}>${i}</a>');
+           
               }
 
             document.getElementById('<%=현재페이지%>').style.backgroundColor = "#4CAF50"; 
             document.getElementById('<%=현재페이지%>').style.color=white;
             </script>
-            <a  href="/main/"+num2 id="next">&raquo;</a>
+            <a  href="/main/num2" id="next">&raquo;</a>
           </div>
         </div>
         
