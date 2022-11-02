@@ -512,9 +512,8 @@
           var cheakuser;
 
             for (i=0; i< '<%= data.수강자.length %>'; i++){
-           var a="<%=data.수강자["+'${i}'+"]%>";
-                console.log(a);
-                if('<%=data.수강자[i]%>'=='<%=사용자.nick%>' ||'<%=data.강의자%>'=='<%=사용자.nick%>' ){
+             
+                if('<%=data.수강자[i]%>'=='<%=사용자.nick%>' ||'<%=data.강의자%>'=='<%=사용자.nick%>'||'<%=data.작성자%>'=='<%=사용자.nick%>' ){
                         cheakuser=true;   
                         break; 
                 }else {
