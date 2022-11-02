@@ -57,6 +57,10 @@
             <% } %>
         </ul>
 
+        <div style='margin-left:40%;'>
+          <ul id="pagination" 
+              class="pagination-sm"></ul>  
+        </div>
         <!--목록 버튼-->
     </div>
 
@@ -70,18 +74,26 @@
 
 
 <script>
- /* $('.list').click(function(){
-      
-    $.ajax({
-      method : 'post',
-      url : '/list',
-      data : { 카테고리 : event.target.dataset.id }
-    }).done(function(결과){
-       location.href("/list"); 
-    })
-    
-  });
-*/
+  console.log('<%=총페이지%>')
+  if(parseInt('<%=총페이지%>') < 6){
+    var total=parseInt('<%=총페이지%>');
+    var visible=parseInt('<%=총페이지%>');
+  }
+  else{
+    var total=parseInt('<%=총페이지%>');
+    var visible=5;
+  }
+$('#pagination').twbsPagination({
+  
+        totalPages: 3,
+        visiblePages: 3,
+        next: 'Next',
+        prev: 'Prev',
+        onPageClick: function (event, page) {
+            
+            location.href=('/main/'+page);
+        }
+    });
 
 </script>
 

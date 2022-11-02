@@ -49,15 +49,18 @@ app.get('/main/:page',function(req,res){
   
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   db=client.db('test');
+    var tpage;
+   db.collection('posting').find().toArray(function(err,result0){
+     tpage= parseInt(result0.length);  
+     if(tpage==0){tpage=1;}
+     tpage=Math.ceil(tpage/4);
+   });
+  
+    var page=parseInt(req.params.page);
 
-  // db.collection('posting').find().toArray(function(err,result){
-  //   console.log(result);
-  //   res.render('boardlist.ejs',{posts:result,사용자: req.user});    
-  // });
-  var page=parseInt(req.params.page);
     db.collection('posting').find().sort({_id:-1}).skip((page-1)*4).limit(4).toArray(function(err,result){
       console.log(result);
-      res.render('boardlist.ejs',{posts:result,사용자: req.user}); 
+      res.render('boardlist.ejs',{posts:result,사용자: req.user,총페이지:tpage}); 
     })
   })
 });

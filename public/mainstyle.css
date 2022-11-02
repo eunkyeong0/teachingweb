@@ -78,3 +78,17 @@
   .notification-container.show {
     transform: translateY(50px);
   } 
+
+  #pagination{
+    display: inline-block;
+    
+    font-size:5rem;
+  }
+  #pagination li{
+    font-size:5rem;
+    display: inline-block;
+  }
+  .pagination-sm .page-link {
+      padding: 0.25rem 0.5rem;
+      font-size: 1.275rem;
+  }
