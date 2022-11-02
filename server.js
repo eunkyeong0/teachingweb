@@ -60,7 +60,7 @@ app.get('/main/:page',function(req,res){
 
     db.collection('posting').find().sort({_id:-1}).skip((page-1)*4).limit(4).toArray(function(err,result){
       console.log(result);
-      res.render('boardlist.ejs',{posts:result,사용자: req.user,총페이지:tpage}); 
+      res.render('boardlist.ejs',{posts:result,사용자: req.user,총페이지:tpage,현재페이지:page}); 
     })
   })
 });

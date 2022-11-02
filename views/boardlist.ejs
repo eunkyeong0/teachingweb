@@ -80,7 +80,8 @@
   console.log('<%=총페이지%>')
   var total;
   var visible;
- 
+  var num;
+  var num0=parseInt('<%=현재페이지%>');
   if(parseInt('<%=총페이지%>') < 6){
     total=parseInt('<%=총페이지%>');
     visible=parseInt('<%=총페이지%>');
@@ -96,14 +97,15 @@ $('#pagination').twbsPagination({
         visiblePages: visible,
         next: 'Next',
         prev: 'Prev',
+        page : num0,
         onPageClick: function (event, page) {
-            
-            $('#pagination').click(function(){
-              location.href=('/main/'+page);
-          })
+            num=page;
+           // location.href=('/main/'+page);
         }
     });
-
+$('#page-item').click(function(){
+  location.href=('/main/'+num);
+})
 </script>
 
 <script>
