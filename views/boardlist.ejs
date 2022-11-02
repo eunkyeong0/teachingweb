@@ -62,25 +62,32 @@
 
         <div style='margin-left:10%;'>
           <div class="pagination">
-            <script>
-              var total=parseInt('<%=총페이지%>');
-              var num=parseInt('<%=현재페이지%>');
-              var num1=num-1
-              if(num1==0){num1=1;}
-              var num2=num+1
-              if(num2==total+1){num2=total;}  
-            </script>            
-            <a id="${num1}" href="/main/${num1}">&laquo;</a>
+                
+              <%var num1=현재페이지-1%>
+              <%var num2=현재페이지+1%>
+              <%if(num1==0){%>
+                <%num1=1;%>
+                <a id="<%=num1%>" href="/main/<%=num1%>">&laquo;</a>
+              <%}else{%>
+                <a id="$<%=num1%>" href="/main/<%=num1%>">&laquo;</a>
+              <%}%>
+
               <%for(var i=1; i<= 총페이지; i++){%>
                 <%console.log(i);%>
                 <a href="/main/<%=i%>"+i id='<%=i%>'><%= i %></a>
               <%}%>
-            <script>    
 
-            document.getElementById('<%=현재페이지%>').style.backgroundColor = "#4CAF50"; 
-            document.getElementById('<%=현재페이지%>').style.color=white;
+              <%if(num2==총페이지+1){%>
+                <%num2=총페이지;%>
+                <a id="$<%=num2%>" href="/main/<%=num2%>">&raquo;</a>
+              <%}else{%>
+                <a id="$<%=num2%>" href="/main/<%=num2%>">&raquo;</a>
+              <%}%>
+
+            <script>    
+            document.getElementById('<%=현재페이지%>').style.backgroundColor = "rgb(107, 154, 183)"; 
             </script>
-            <a  href="/main/${num2}" id="${num2}">&raquo;</a>
+
           </div>
         </div>
         
