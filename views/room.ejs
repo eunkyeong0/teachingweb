@@ -23,7 +23,9 @@
     <script  src="https://unpkg.com/default-passive-events"></script>
     
     <button style="width: 10%; float: right; margin-right: 1%;" id="mute">마이크 끄기</button> 
-    <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
+    <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button>
+    <button style="width: 10%; float: right; margin-right: 1%; display: none;"  id="uexit"  onclick="location.replace='/board/<%=글번호%>'">종료</button> 
+
     <br>
     <br>
     <div id="cv" style="margin-top: 10px;"><!-- 강의자가 판서할 캔버스와 그리기 도구--> 
@@ -151,10 +153,7 @@
     <i class="fa fa-file-image-o" data-icon="img" style="float:right; margin-right: 3%;font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>
     <div id="hand" style="float:right; margin-right: 3%;">
     <i class="fa fa-hand-paper-o" data-icon="noti" style="font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>    
-    </div>
-    <div style="float:right; width: 7%; margin-right: 3%; margin-top: 0px; margin-bottom: 0px;">
-        <button id="uexit" style="display: none;" onclick="location.replace='/board/<%=글번호%>'">종료</button> 
-    </div>    
+    </div>  
  
 <!--학습종료 버튼(강의자에게만 보임)-->      
     <form action="/done" method="post">
@@ -459,8 +458,10 @@
         $('#chat').append('<div>' +'강의자 화면입니다.'+'</div>');
 
     }else{
+        
         sharevideo.hidden=true;
         startButton.hidden=true;
+        document.getElementById('uexit').style.display='block';        
         cv.hidden=true;
         exitbtn.hidden=true;
         myvideo.hidden=true;
@@ -478,8 +479,6 @@
     }
 
     function exitmg(){ 
-
-        document.getElementById('uexit').style.display='block';
         socket.emit('user-send','수업이 종료되었습니다.');  
     }
     </script>
