@@ -18,13 +18,10 @@
     <script  src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>   
     <script  src="/socket.io/socket.io.js" >  </script>
    <!-- peerjs socket io 불러오기 -->
-  
     <script  src="https://code.jquery.com/jquery-3.6.0.min.js"> </script>
-    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" ></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script  src="https://unpkg.com/default-passive-events"></script>
     
-    
-
     <button style="width: 10%; float: right; margin-right: 1%;" id="mute">마이크 끄기</button> 
     <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button> 
     <br>
@@ -130,7 +127,8 @@
     <video id='sharevideo' style="margin-top: 2%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
     <!-- 화면 공유-->
 
-    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px"> <!-- 수강자 화면에 보여줄 목록 위치-->
+    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px"> 
+        <!-- 수강자 화면에 보여줄 접속자 목록 위치-->
     <div id="count1" >카운트</div>
     <hr size="5" width="150px" noshade>
     <div>강의자: <%=강의자%></div>
@@ -154,18 +152,18 @@
     <div id="hand" style="float:right; margin-right: 3%;">
     <i class="fa fa-hand-paper-o" data-icon="noti" style="font-size: 38px;color: #547ef89e;cursor: pointer; width: 50px;height: 45px;text-align: center;"></i>    
     </div>
-    
+    <div style="float:right; width: 7%; margin-right: 3%; margin-top: 0px; margin-bottom: 0px;">
+        <button id="uexit" style="display: none;" onclick="location.replace='/board/<%=글번호%>'">종료</button> 
+    </div>    
  
 <!--학습종료 버튼(강의자에게만 보임)-->      
     <form action="/done" method="post">
         <input type="hidden" id='number' name='postnum' value="<%=글번호%>">
-        <input type="hidden" id='all' name="alllist" value="">
         <button type="submit" id="exitbtn" onclick="javascript:exitmg()" style=" float:left; background-color: #4657d3;color: white;padding: 5px 10px;margin: 8px 0;border: none;cursor: pointer;width: 100%;" >수업 종료하기</button>      
     </form>
 
 <!--손들기 알림창-->    
-    <div class="notification-container" id="notification-container">
-        
+    <div class="notification-container" id="notification-container"> 
     </div>
 
 <!--접속한 사람들 음성저장-->       
@@ -206,15 +204,13 @@
             setTimeout(() => {
                 notification.classList.remove('show')
                 $("#notification-container").empty(); 
-            }, 1500)   
+            }, 3500)   
         }        
     </script>    
 
     <script>
     
         var socket=io();//socket io   
-
-        var alist=new Array();
 
         const pvideo = document.getElementById("peersvideo");//수강자 화면에 보여줄 강의자 캔버스 캡쳐영상
         const myvideo=document.getElementById('video');//캔버스 캡쳐 스트림 저장
@@ -273,7 +269,6 @@
         for(var i=0;i<list.length;i++){
             $('#list').append('<div>' +list[i]['user']+'</div>'); //참여자 닉네임 목록
             $('#list1').append('<div>' +list[i]['user']+'</div>');
-            alist[i]=list[i]['user'];
        }   
     });
 
@@ -372,25 +367,25 @@
             setTimeout(connectNewUser,1000,userid,sendvideo); //접속자들에게 영상,오디오 보내기
         });   
        
-    }
+        }
 
-    function connectNewUser(userid,stream){
-        console.log('connet 함수');
-        const call = myPeer.call(userid, stream);
+        function connectNewUser(userid,stream){
+            console.log('connet 함수');
+            const call = myPeer.call(userid, stream);
 
-        call.on('stream',function(userVideoStream){   
-                        
-              pvideo.srcObject=userVideoStream;  
-              myvideo.srcObject=userVideoStream;
+            call.on('stream',function(userVideoStream){   
+                            
+                pvideo.srcObject=userVideoStream;  
+                myvideo.srcObject=userVideoStream;
 
-              const sharevoice2=document.createElement('audio'); //오디오 태그 생성
-              addaudio(sharevoice2,userVideoStream); //참여자 오디오 저장     
-            
-        });
-       
-        currentPeer.push(call);//peerid 저장
-        console.log(currentPeer);
-    }
+                const sharevoice2=document.createElement('audio'); //오디오 태그 생성
+                addaudio(sharevoice2,userVideoStream); //참여자 오디오 저장     
+                
+            });
+        
+            currentPeer.push(call);//peerid 저장
+            console.log(currentPeer);
+        }
 
 
     function handleMuteClick() {  //마이크 켜기 끄기 버튼
@@ -482,17 +477,11 @@
         $("#myStreamv").append(audio);
     }
 
-    function exitmg(){
-        console.log(alist);
-        for(let i = 0; i < alist.length; i++) {
-            if(alist[i] === '<%=강의자%>')  {
-                alist.splice(i, 1);
-                i--;
-            }
-            }
-        console.log(alist);
-        document.getElementById('all').value=alist;   
-        socket.emit('user-send','수업이 종료되었습니다.');
+    function exitmg(){ 
+        if('<%=사용자.nick%>'!='<%=강의자%>'){
+        document.getElementById('uexit').style.display='block';
+        }
+        socket.emit('user-send','수업이 종료되었습니다.');  
     }
     </script>
 </body>

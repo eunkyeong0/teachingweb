@@ -174,7 +174,7 @@
                     document.getElementById('card1').style.display='none';                
                     document.getElementById('card2').style.display='none';
                     document.getElementById('card4').style.display='block';
-                    console.log('열기');
+                    
                 }
                 else{
                     document.getElementById('card0').style.display='block';
@@ -314,10 +314,8 @@
                                     <%if(후기.평가[i].작성자==사용자.nick){%>
                                         <script>
                                              document.getElementById('review2').style.display='block';
-                                             document.getElementById('review').style.display='none';
                                         </script>  
                                     <% num=1; %>
-                    
                                     <%break;%>
                                                                                          
                                     <%}%>
@@ -351,10 +349,7 @@
                                     <input type="hidden"  name='nick' value="<%=사용자.nick%>">
                                     <input type="hidden"  name='title' value="<%=data._id%>">
                                     <button type="submit" >리뷰 남기기</button>
-                                </form>
-                                <script>
-                                    document.getElementById('review').style.display='none';
-                                </script>    
+                                </form>   
                            
                                 <%break;%>
                             <%}else{%>
@@ -365,13 +360,7 @@
                         <%}%>
 
         
-                </div class="card" id='card5'>
-
-                <div>
-
-                </div>
-
-
+                </div> 
             </div>
         </div>
     
@@ -395,7 +384,8 @@
                
                 
                 })  
-                location.reload();                  
+                //location.reload(); 
+                location.replace('board/<%=글번호%>');              
             } 
             else if(re=='f'){
                 console.log(num);
@@ -560,8 +550,7 @@
                 document.getElementById('card2').style.display='block';
 
                 if('<%=data.글상태%>'=='완료'){
-                    //document.getElementById('card2').style.display='none';
-                    console.log('닫기');
+                    document.getElementById('card2').style.display='none';
                 }
                 return;
             }
