@@ -409,16 +409,17 @@ app.get('/room/:id',function(요청,응답){
 });
 
 app.post('/done',function(요청,응답){
-  console.log('접속');
+
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
     //console.log(요청.body.alllist);//하면 되긴될듯
       db.collection('posting').updateOne({_id:parseInt(요청.body.postnum)},{$set:{글상태:'완료'}},function(err,result){      
         db.collection('rating').insertOne({글번호:parseInt(요청.body.postnum),평가:[]},function(요청,응답){
-          응답.redirect('/board/'+요청.body.postnum);   
+           
         });     
       });    
   });
+  응답.redirect('/board/'+요청.body.postnum);
 });
 
 app.post('/rating',function(req,응답){
