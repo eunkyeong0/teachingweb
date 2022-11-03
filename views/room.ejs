@@ -478,9 +478,8 @@
     }
 
     function exitmg(){ 
-        if('<%=사용자.nick%>'!='<%=강의자%>'){
+
         document.getElementById('uexit').style.display='block';
-        }
         socket.emit('user-send','수업이 종료되었습니다.');  
     }
     </script>
