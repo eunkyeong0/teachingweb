@@ -24,7 +24,6 @@
     
     <button style="width: 10%; float: right; margin-right: 1%;" id="mute">마이크 끄기</button> 
     <button style="width: 10%; float: right; margin-right: 1%;" id="startButton"  disabled>화면 공유</button>
-    <button style="width: 10%; float: right; margin-right: 1%; display: none;"  id="uexit"  onclick="location.replace='/board/<%=글번호%>'">종료</button> 
 
     <br>
     <br>
@@ -129,7 +128,8 @@
     <video id='sharevideo' style="margin-top: 2%; border: 1px solid black;" width="1150px" height="550vh" autoplay></video>
     <!-- 화면 공유-->
 
-    <div class="servetext2" id='listuser' style="float: right; margin-top:2%; margin-right:10px"> 
+    <div style="display: flex; flex-direction: column; float: right; margin-top:2%; margin-right:10px">
+    <div class="servetext2" id='listuser'> 
         <!-- 수강자 화면에 보여줄 접속자 목록 위치-->
     <div id="count1" >카운트</div>
     <hr size="5" width="150px" noshade>
@@ -140,7 +140,13 @@
     <hr size="5" width="150px" noshade>    
     <div id="list1"></div>       
    </div>
+ 
+   <button class='btn2' style="width: 10%; display: none;"  id="uexit"  onclick="location.href='/board/<%=글번호%>'">종료</button> 
 
+    </div>
+
+
+   
 <!-- 채팅창 -->
     <div id="chatbox" style=" float:left; width:50%; height: 10vh; overflow: auto; white-space: nowrap; border: 1.2px solid black; margin-left: 16px;">
         <div id="chat"></div>       
