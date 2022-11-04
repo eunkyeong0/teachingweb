@@ -86,8 +86,9 @@
             <div class="card"  id="card0" style="height: 30vh;"> 
                     
                 <h2 class="servetext" style="width: 80%; float: left; " >일정 잡기</h2>
+                <% if(data.작성자!=사용자.nick){%>
                 <button class="btn2"style="width: 18%;" onclick="document.getElementById('tu01').style.display='block'">티칭 일정 잡기</button>
-                    
+                <%}%>   
                 <br>
                 <br>
 
@@ -109,14 +110,14 @@
                             <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">선택</button>
                         </form>  
                         <%}%>
-                        <% if(data.목록[i].튜터==사용자.nick){%>
-                        <form action="/del" method="post">
+                 
+                        <form action="/del" method="post" onsubmit="return cheakform1('<%=data.목록[i].튜터%>');">
                             <input type="hidden" name="시간" value="<%=data.목록[i].시간%>">
                             <input type="hidden" name="튜터" value="<%=data.목록[i].튜터%>">
                             <input type="hidden" name="글번호" value="<%= 글번호 %>">
                             <button type="submit" style="float: right; width: 20%; padding: 5px 10px;">삭제</button>
                         </form>                         
-                        <%}%>
+                      
                         
                         </li>
                         <% } %>
@@ -529,6 +530,24 @@
         //         }
         //     }        
           
+      }
+
+      function cheakform1(data){
+        var cheakdel;
+        if(data=='<%=사용자.nick%>'){
+            cheakdel==true;
+        }
+        else{
+            cheakdel=false;
+        }
+
+        if(cheakdel==true){
+            return true;
+        }
+        else if(cheakdel==false){
+            alert(data+' 유저만 삭제 가능합니다.');
+            return false;
+        }
       }
     </script>
 
