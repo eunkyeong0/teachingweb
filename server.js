@@ -19,9 +19,6 @@ app.use(session({secret : '비밀코드', resave : true, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-
-
-
 var db;
 
 const port = process.env.PORT || 8080 ;
@@ -34,12 +31,13 @@ app.use('/', peerServer);
 
 MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   if (에러) return console.log(에러)
+  db=client.db('test');
 
   http.listen(port, function() {
     console.log('listening on 8080')
   })
 
-  db.client.db('test');
+  
 
   app.get('/',function(req,res){
     res.sendFile(__dirname+'/index.html');
