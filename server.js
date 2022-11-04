@@ -397,107 +397,107 @@ MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/tes
   
   });
 
+  const login = new Array();
 
+  io.on('connection', function(socket){
+    socket.on('joinroom', function(data0,peerid){
 
-});
-
-const login = new Array();
-
-io.on('connection', function(socket){
-  socket.on('joinroom', function(data0,peerid){
-
-    if(login.length>=1){
-      var m=0;
-      for(var i=0;i<login.length;i++){
-        if(login[i]['user']==usernick){
-          m=1; 
-          //이미 정보에 있을 때
-          break;
-        }
-      } 
-      if(m==0){
-        login.push({ socket:socket.id
-        ,  room : String(data0) 
-        , user : usernick   
-        })         
-      }      
-    }else{
-      login.push({
-        socket:socket.id
-      ,  room : String(data0)  // 접속한 강의실의 번호
-      , user : usernick   // 접속자의 유저의 이름
-      })      
-    }
-  
-    socket.join(String(data0)); 
-    io.to(String(data0)).emit('count',login);
-    socket.broadcast.to(String(data0)).emit('user-connected', peerid);
-    
-    socket.on('disconnecting',function(){    
-      for(var i=0;i<login.length;i++){
-       
-        if(login[i]['socket']==socket.id){
-          var name=login[i]['user'];
-          break;
-        }
-      } 
-
-      for(var i=0;i<login.length;i++){      
-         if(login[i]['user']==name){
-            var n=i;
-            console.log(n); 
+      if(login.length>=1){
+        var m=0;
+        for(var i=0;i<login.length;i++){
+          if(login[i]['user']==usernick){
+            m=1; 
+            //이미 정보에 있을 때
             break;
-        }}
-      login.splice(n,1);
-
-      io.to(String(data0)).emit('bye',name);
+          }
+        } 
+        if(m==0){
+          login.push({ socket:socket.id
+          ,  room : String(data0) 
+          , user : usernick   
+          })         
+        }      
+      }else{
+        login.push({
+          socket:socket.id
+        ,  room : String(data0)  // 접속한 강의실의 번호
+        , user : usernick   // 접속자의 유저의 이름
+        })      
+      }
+    
+      socket.join(String(data0)); 
       io.to(String(data0)).emit('count',login);
-      //방 떠남
-      console.log(login);
+      socket.broadcast.to(String(data0)).emit('user-connected', peerid);
+      
+      socket.on('disconnecting',function(){    
+        for(var i=0;i<login.length;i++){
+        
+          if(login[i]['socket']==socket.id){
+            var name=login[i]['user'];
+            break;
+          }
+        } 
+
+        for(var i=0;i<login.length;i++){      
+          if(login[i]['user']==name){
+              var n=i;
+              console.log(n); 
+              break;
+          }}
+        login.splice(n,1);
+
+        io.to(String(data0)).emit('bye',name);
+        io.to(String(data0)).emit('count',login);
+        //방 떠남
+        console.log(login);
+      });
+
+      socket.on('user-send', function(data){
+        io.to(String(data0)).emit('broadcast', data);
+    }); 
+
+    socket.on('notifi',function(nick){
+        io.to(String(data0)).emit('alarm',nick);
+    })
     });
-
-    socket.on('user-send', function(data){
-      io.to(String(data0)).emit('broadcast', data);
-   }); 
-
-   socket.on('notifi',function(nick){
-      io.to(String(data0)).emit('alarm',nick);
-   })
   });
-});
 
-passport.use(new LocalStrategy({
-  usernameField: 'uid',
-  passwordField: 'psw',
-  session: true,
-  passReqToCallback: false,
-}, function (입력한아이디, 입력한비번, done) {
-  console.log(입력한아이디, 입력한비번);
-  MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
-    if (에러) return console.log(에러)
-    db=client.db('test');
+  passport.use(new LocalStrategy({
+    usernameField: 'uid',
+    passwordField: 'psw',
+    session: true,
+    passReqToCallback: false,
+  }, function (입력한아이디, 입력한비번, done) {
+    console.log(입력한아이디, 입력한비번);
+    MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
+      if (에러) return console.log(에러)
+      db=client.db('test');
 
-  db.collection('post').findOne({ userid: 입력한아이디 }, function (에러, 결과) {
-    if (에러) return done(에러)
+    db.collection('post').findOne({ userid: 입력한아이디 }, function (에러, 결과) {
+      if (에러) return done(에러)
 
-    if (!결과) return done(null, false, { message: '존재하지않는 아이디' })
-    if (입력한비번 == 결과.pwd) {
-      return done(null, 결과)
-    } else {
-      return done(null, false, { message: '틀린 비밀번호' })
-    }
-  })
-});
-}));
-
-passport.serializeUser(function (user, done) {
-  done(null, user.userid)
-});
-
-passport.deserializeUser(function (아이디, done) {
-  MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
-      db.collection('post').findOne({ userid: 아이디 }, function (에러, 결과) {
-      done(null, 결과)
+      if (!결과) return done(null, false, { message: '존재하지않는 아이디' })
+      if (입력한비번 == 결과.pwd) {
+        return done(null, 결과)
+      } else {
+        return done(null, false, { message: '틀린 비밀번호' })
+      }
     })
   });
-}); 
+  }));
+
+  passport.serializeUser(function (user, done) {
+    done(null, user.userid)
+  });
+
+  passport.deserializeUser(function (아이디, done) {
+    MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
+        db.collection('post').findOne({ userid: 아이디 }, function (에러, 결과) {
+        done(null, 결과)
+      })
+    });
+  }); 
+
+});
+
+
