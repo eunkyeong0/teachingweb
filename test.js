@@ -1,5 +1,7 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+app.use(express.json({limit : "10mb"}));
+app.use(express.urlencoded({limit:"10mb",extended: false}));
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
@@ -18,28 +20,23 @@ app.use(passport.initialize());
 app.use(passport.session()); 
 
 
+
+
 var db;
-let multer = require('multer');
-const { equal } = require('assert');
-const { ObjectId } = require('mongodb');
-//const { ObjectID, ObjectId } = require('bson');
-var storage = multer.diskStorage({
 
-  destination : function(req, file, cb){
-    cb(null, './public/image')
-  },
-  filename : function(req, file, cb){
-    cb(null, file.originalname )
-  }
-
+const port = process.env.PORT || 8080 ;
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(http, {
+  debug:true,
+  path: '/peerjs'
 });
-
-var upload = multer({storage : storage});
+app.use('/', peerServer);
 
 MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   if (에러) return console.log(에러)
-  http.listen(7070, function() {
-    console.log('listening on 7070')
+
+  http.listen(port, function() {
+    console.log('listening on 8080')
   })
 
 });
@@ -48,16 +45,23 @@ app.get('/',function(req,res){
   res.sendFile(__dirname+'/index.html');
 });
 
-app.get('/main',function(req,res){
+app.get('/main/:page',function(req,res){
   
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
   db=client.db('test');
+    var tpage;
+   db.collection('posting').find().toArray(function(err,result0){
+     tpage= parseInt(result0.length);  
+     if(tpage==0){tpage=1;}
+     tpage=Math.ceil(tpage/4);
+   });
+  
+    var page=parseInt(req.params.page);
 
-  db.collection('posting').find().toArray(function(err,result){
-    console.log(result);
-    res.render('boardlist.ejs',{posts:result,사용자: req.user});    
-  });
-
+    db.collection('posting').find().sort({_id:-1}).skip((page-1)*4).limit(4).toArray(function(err,result){
+      console.log(result);
+      res.render('boardlist.ejs',{posts:result,사용자: req.user,총페이지:tpage,현재페이지:page}); 
+    })
   })
 });
 
@@ -73,22 +77,22 @@ app.post('/write',function(req,res){
   db.collection('counter').findOne({name:'글수'},function(err,result){
     console.log(result.totalNum);
     var total=result.totalNum;
-  db.collection('posting').insertOne( {제목 : req.body.title,본문 : req.body.maintxt ,카테고리:req.body.cate,작성자:req.user.nick ,_id : total+1,작성시간:req.body.wtime ,목록:[], 시간:[], 글상태:'모집중',수강자:[]} , function(err, result){
-      console.log('저장완료'); 
-      db.collection('posting').updateOne({_id:total+1},{$push :{시간:{$each:[{월:'5',
-        일:'19',시:'04',분:'28' }]}} },function(요청,응답){
-      });//이건 테스트용으로 새로 추가한거..
-      db.collection('counter').updateOne({name:'글수'},{$inc:{totalNum:1}},function(err,result){
+  db.collection('posting').insertOne( {제목 : req.body.title,본문 : req.body.maintxt ,카테고리:req.body.cate,작성자:req.user.nick ,_id : total+1,작성시간:req.body.wtime ,목록:[],시간:'05/12/2023 10:02 AM', 글상태:'모집중',수강자:[]} , function(err, result){
+
+   db.collection('counter').updateOne({name:'글수'},{$inc:{totalNum:1}},function(err,result){
         if(err) return console.log(err);
          })   
-      });
+   });
    db.collection('comment').insertOne({글번호:total+1 ,총댓글수:0, 댓글:[]
 
    });  
      
+   db.collection('image').insertOne({_id : total+1, 주소:req.body.이미지
+
+   });
     });
   }); 
-  res.redirect('/main') 
+  res.redirect('/main/1') 
 });
 
 app.post('/comment',function(req,res){
@@ -147,7 +151,7 @@ app.post('/newuser',function(req,res){
 app.post('/login',passport.authenticate('local', {
   failureRedirect : '/fail'
 }),function(req,res){
-    res.redirect('/main')
+    res.redirect('/main/1');
 });
 
 app.get('/fail',function(req,res){
@@ -175,32 +179,42 @@ app.get('/board/:id', function(요청, 응답){
 
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
+
     db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
     db.collection('comment').findOne({글번호:parseInt(요청.params.id)},function(err,result2){
-      응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2});
+      db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result3){
+        db.collection('rating').findOne({글번호:parseInt(요청.params.id)},function(err,result4){
+          응답.render('board.ejs',{data:result,사용자:요청.user,글번호:요청.params.id,cdata:result2,이미지주소:result3,후기:result4});
+          });
+        });
       });
-    })  
-
+    });
     });
   });
 
 app.get('/edit/:id',function(요청,응답){
     MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
-    db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
-      응답.render('edit.ejs',{data:result});    
-    });
+    db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result0){
+      db.collection('posting').findOne({_id : parseInt(요청.params.id)},function(err,result){
+        응답.render('edit.ejs',{data:result,imgdata:result0});    
+      });
+    })
+
     });
 });
 
 app.put('/edit',function(요청,응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
-    db.collection('posting').updateOne({_id : parseInt(요청.body.id)},
-    {$set : {제목 :요청.body.title ,본문 : 요청.body.maintxt,카테고리:요청.body.cate}},function(err,result){
-      var num=parseInt(요청.body.id);
-      응답.redirect('/board/'+num);
+    db.collection('image').updateOne({_id : parseInt(요청.body.id)},{$set:{주소:요청.body.이미지}},function(err,result0){
+      db.collection('posting').updateOne({_id : parseInt(요청.body.id)},
+      {$set : {제목 :요청.body.title ,본문 : 요청.body.maintxt,카테고리:요청.body.cate}},function(err,result){
+        var num=parseInt(요청.body.id);
+        응답.redirect('/board/'+num);
+      });
     });
+
     });     
 });
 
@@ -208,19 +222,30 @@ app.get('/delete/:id', function(요청, 응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
     db.collection('posting').deleteOne({_id:parseInt(요청.params.id)}, function(에러, 결과){
+      db.collection('comment').deleteOne({글번호:parseInt(요청.params.id)}, function(에러, 결과){
+        db.collection('image').deleteOne({_id:parseInt(요청.params.id)}, function(에러, 결과){
+        
+        })        
+      })
   })
-  응답.redirect('/main');
+  응답.redirect('/main/1');
 });
 
+});
+
+app.get('/userpage/username/:nick',function(요청,응답){
+  MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
+    db=client.db('test');  
+    db.collection('post').findOne({nick:요청.params.nick}, function(에러, 결과){
+      var tutorid=결과.userid;
+      응답.redirect('/userpage/'+tutorid);      
+  })
+});
 });
 
 app.get('/userpage/:id', function(요청, 응답){
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');  
-// db.collection('comment').findOne({"댓글.작성자":"테스트1"}).toArray(function(err,result3){ 
-//  console.log(result3);
-//  });
-
   db.collection('post').findOne({userid : 요청.params.id},function(err,result0){
     var name=result0.nick;  
     db.collection('posting').find().toArray(function(err,result){
@@ -273,9 +298,8 @@ app.post('/tutor',function(요청,응답){
     if (에러) return console.log(에러)
     db=client.db('test');
     
-    db.collection('posting').updateOne({_id : parseInt(요청.body.글번호)},{$push :{목록:{$each:[{월:요청.body.month,
-    일:요청.body.day,시:요청.body.clock1,분:요청.body.clock2,튜터:요청.body.작성자}],$sort: {월:1,일:1,시:1,분:1}
-  }} },function(err,result){
+    db.collection('posting').updateOne({_id : parseInt(요청.body.글번호)},{$push :{목록:{$each:[{시간:요청.body.시간일정,
+      튜터:요청.body.작성자}],$sort: {시간:1}}} },function(err,result){
       
     });    
   });
@@ -287,8 +311,7 @@ app.post('/del',function(요청,응답){
    
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
    db=client.db('test');
-  db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$pull: { 목록: { 월:요청.body.월 , 일:요청.body.일,
-    시:요청.body.시,분:요청.body.분,튜터:요청.body.튜터 } }},function(err,result){
+  db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$pull: { 목록: { 시간:요청.body.시간,튜터:요청.body.튜터 } }},function(err,result){
    });
   });
   var num=요청.body.글번호;
@@ -336,8 +359,9 @@ app.post('/schedule',function(요청,응답){
     db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$push:{수강자:요청.body.작성자}},function(err,result){
     });  
 
-    db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$set:{강의자:요청.body.튜터,글상태:'강의대기'}},function(err,result){
+    db.collection('posting').updateOne({_id:parseInt(요청.body.글번호)},{$set:{시간:요청.body.시간,강의자:요청.body.튜터,글상태:'강의대기'}},function(err,result){
     });
+
 
 
      
@@ -368,13 +392,16 @@ app.get('/room/:id',function(요청,응답){
        });    
    
 
- db.collection('posting').findOne({_id:parseInt(요청.params.id)},function(err,result){
-      
-  usernick=요청.user.nick;
-  console.log(result.강의자);
+        db.collection('posting').findOne({_id:parseInt(요청.params.id)},function(err,result){
+              
+          usernick=요청.user.nick;
+          console.log(result.강의자);
 
-응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자});  
-
+          db.collection('image').findOne({_id:parseInt(요청.params.id)},function(err,result1){ 
+            응답.render('room.ejs',{글번호:요청.params.id,사용자:요청.user,강의자:result.강의자,이미지주소:result1});  
+  
+       });
+        
      });
    
   });
@@ -382,17 +409,17 @@ app.get('/room/:id',function(요청,응답){
 });
 
 app.post('/done',function(요청,응답){
-  console.log('접속');
+
   MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
     db=client.db('test');
+    //console.log(요청.body.alllist);//하면 되긴될듯
       db.collection('posting').updateOne({_id:parseInt(요청.body.postnum)},{$set:{글상태:'완료'}},function(err,result){      
-//        db.collection('rating').insertOne({글번호:parseInt(요청.body.postnum),평가:[]},function(요청,응답){
-          응답.redirect('/board/'+요청.body.postnum);
-        console.log('done post db접속햇음1');
-          
- //       });     
+        db.collection('rating').insertOne({글번호:parseInt(요청.body.postnum),평가:[]},function(요청,응답){
+           
+        });     
       });    
   });
+  응답.redirect('/board/'+요청.body.postnum);
 });
 
 app.post('/rating',function(req,응답){
@@ -407,7 +434,7 @@ app.post('/rating',function(req,응답){
         var num2=parseInt(result0.총평점수)+1;
         db.collection('post').updateOne({nick:teacher},{$set:{총평점수:num2}},function(err,result){
           db.collection('post').updateOne({nick:teacher},{$set:{총평점:Math.round((num+parseInt(req.body.rating3))/num2)}},function(err,result){
-            //응답.redirect('/userpage/'+req.body.user);
+            응답.redirect('/board/'+parseInt(req.body.title));
          });
         });
 
@@ -420,10 +447,6 @@ app.post('/rating',function(req,응답){
 const login = new Array();
 
 io.on('connection', function(socket){
-  
-
-  console.log('연결되었어요');
-
   socket.on('joinroom', function(data0,peerid){
 
     if(login.length>=1){
@@ -431,46 +454,39 @@ io.on('connection', function(socket){
       for(var i=0;i<login.length;i++){
         if(login[i]['user']==usernick){
           m=1; 
-          console.log('같은거 찾기');
+          //이미 정보에 있을 때
           break;
         }
       } 
       if(m==0){
-        console.log('aa');
         login.push({ socket:socket.id
         ,  room : String(data0) 
         , user : usernick   
         })         
       }      
     }else{
-      console.log('ee');
       login.push({
         socket:socket.id
-      ,  room : String(data0)  // 접속한 채팅방의 이름
+      ,  room : String(data0)  // 접속한 강의실의 번호
       , user : usernick   // 접속자의 유저의 이름
       })      
-      console.log('ee');
     }
   
-
-    console.log(login);
     socket.join(String(data0)); 
     io.to(String(data0)).emit('count',login);
     socket.broadcast.to(String(data0)).emit('user-connected', peerid);
     
     socket.on('disconnecting',function(){    
       for(var i=0;i<login.length;i++){
-        console.log('확인1');
+       
         if(login[i]['socket']==socket.id){
           var name=login[i]['user'];
-          console.log('확인12');
           break;
         }
       } 
 
       for(var i=0;i<login.length;i++){      
          if(login[i]['user']==name){
-            console.log('확인2');
             var n=i;
             console.log(n); 
             break;
@@ -479,7 +495,7 @@ io.on('connection', function(socket){
 
       io.to(String(data0)).emit('bye',name);
       io.to(String(data0)).emit('count',login);
-      console.log('떠남');
+      //방 떠남
       console.log(login);
     });
 
@@ -487,20 +503,9 @@ io.on('connection', function(socket){
       io.to(String(data0)).emit('broadcast', data);
    }); 
 
-
-   socket.on('done',function(){
-      io.to(String(data0)).emit('exit');
-   })
-
    socket.on('notifi',function(nick){
       io.to(String(data0)).emit('alarm',nick);
    })
-/*   socket.on('linesend', function(data) {
-    // linesend 이벤트로 넘어오는 메세지를 linesend_toclient 메세지로 보냄
-    socket.broadcast.emit('draw_toclient', data);
-    //socket.to(String(data0)).emit=('draw_toclient', data);
-    });  */
-
   });
 });
 
