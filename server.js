@@ -14,6 +14,7 @@ const session = require('express-session');
 const http = require('http').createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(http);
+require('dotenv').config();
 
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -29,7 +30,7 @@ const peerServer = ExpressPeerServer(http, {
 });
 app.use('/', peerServer);
 
-MongoClient.connect('mongodb+srv://master:abc1234@cluster0.bk2pv.mongodb.net/test?retryWrites=true&w=majority', function(에러, client){
+MongoClient.connect(process.env.MONGO_DB_URL, function(에러, client){
   if (에러) return console.log(에러)
   db=client.db('test');
 
