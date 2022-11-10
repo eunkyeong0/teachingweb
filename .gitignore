@@ -1,6 +1,3 @@
 test.js
-node_modules/
-public/draw.js
-public/image
 views/mypage.ejs
 .env
